@@ -518,51 +518,51 @@ tr:hover td{background:rgba(201,164,92,.04)}
 <div id="toast" role="status"></div>
 
 <div id="pdfTemplate">
-  <div id="pdfDoc" style="padding:50px;background:#0C0A07;color:#F3EDE2;min-height:1100px">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #6b5530;padding-bottom:24px;margin-bottom:30px">
+  <div id="pdfDoc" style="padding:32px 38px;background:#0C0A07;color:#F3EDE2">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #6b5530;padding-bottom:14px;margin-bottom:16px">
       <div>
-        <div style="font-family:'Amiri',serif;font-size:42px;font-weight:700;color:#EAD29A" id="pdfArtist">محمود نور الدين</div>
-        <div style="color:#A2988A;font-size:13px;margin-top:4px">الحجوزات الرسمية</div>
+        <div style="font-family:'Amiri',serif;font-size:30px;font-weight:700;color:#EAD29A" id="pdfArtist">محمود نور الدين</div>
+        <div style="color:#A2988A;font-size:11px;margin-top:2px">الحجوزات الرسمية</div>
       </div>
       <div style="text-align:left">
-        <div style="color:#A2988A;font-size:11px">رقم الحجز</div>
-        <div style="font-family:'Space Grotesk',monospace;font-size:22px;color:#EAD29A;letter-spacing:2px;direction:ltr" id="pdfBid">QW-2026-00000</div>
+        <div style="color:#A2988A;font-size:10px">رقم الحجز</div>
+        <div style="font-family:'Space Grotesk',monospace;font-size:17px;color:#EAD29A;letter-spacing:1px;direction:ltr" id="pdfBid">QW-2026-00000</div>
       </div>
     </div>
-    <div style="text-align:center;margin:30px 0">
-      <div style="color:#A2988A;font-size:12px">تفاصيل الحجز</div>
-      <div style="width:40px;height:1px;background:#C9A45C;margin:10px auto"></div>
+    <div style="text-align:center;margin:12px 0">
+      <div style="color:#A2988A;font-size:11px">تفاصيل الحجز</div>
+      <div style="width:36px;height:1px;background:#C9A45C;margin:6px auto"></div>
     </div>
     <div id="pdfRows"></div>
-    <div style="margin-top:30px;padding:20px;border:1px dashed #6b5530;border-radius:10px;background:#13100B">
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center">
+    <div style="margin-top:14px;padding:14px;border:1px dashed #6b5530;border-radius:8px;background:#13100B">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center">
         <div>
-          <div style="color:#A2988A;font-size:11px">سعر الحجز</div>
-          <div style="font-family:'Space Grotesk',monospace;font-size:22px;color:#EAD29A;margin-top:4px" id="pdfPrice">0</div>
+          <div style="color:#A2988A;font-size:10px">سعر الحجز</div>
+          <div style="font-family:'Space Grotesk',monospace;font-size:18px;color:#EAD29A;margin-top:3px" id="pdfPrice">0</div>
         </div>
         <div>
-          <div style="color:#A2988A;font-size:11px">العربون المدفوع</div>
-          <div style="font-family:'Space Grotesk',monospace;font-size:22px;color:#C9A45C;margin-top:4px" id="pdfDep">0</div>
+          <div style="color:#A2988A;font-size:10px">العربون المدفوع</div>
+          <div style="font-family:'Space Grotesk',monospace;font-size:18px;color:#C9A45C;margin-top:3px" id="pdfDep">0</div>
         </div>
         <div>
-          <div style="color:#A2988A;font-size:11px">المتبقي</div>
-          <div style="font-family:'Space Grotesk',monospace;font-size:22px;color:#A2988A;margin-top:4px" id="pdfRem">0</div>
+          <div style="color:#A2988A;font-size:10px">المتبقي</div>
+          <div style="font-family:'Space Grotesk',monospace;font-size:18px;color:#A2988A;margin-top:3px" id="pdfRem">0</div>
         </div>
       </div>
     </div>
-    <div style="margin-top:40px;padding:20px;background:#1a1508;border:1px solid #6b5530;border-radius:10px;text-align:center">
-      <div style="font-size:12px;color:#D8B45A;margin-bottom:6px">حالة الحجز</div>
-      <div style="font-family:'Amiri',serif;font-size:24px;color:#EAD29A" id="pdfStatus">معلق</div>
-      <div style="font-size:11px;color:#A2988A;margin-top:6px" id="pdfStatusNote">بانتظار مراجعة الإدارة</div>
+    <div style="margin-top:14px;padding:14px;background:#1a1508;border:1px solid #6b5530;border-radius:8px;text-align:center">
+      <div style="font-size:11px;color:#D8B45A;margin-bottom:4px">حالة الحجز</div>
+      <div style="font-family:'Amiri',serif;font-size:20px;color:#EAD29A" id="pdfStatus">معلق</div>
+      <div style="font-size:10px;color:#A2988A;margin-top:4px" id="pdfStatusNote">بانتظار مراجعة الإدارة</div>
     </div>
-    <div style="margin-top:40px;padding-top:20px;border-top:1px solid #3d3325;display:flex;justify-content:space-between;font-size:11px;color:#6E6558">
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid #3d3325;display:flex;justify-content:space-between;font-size:10px;color:#6E6558">
       <div>
         <div>واتساب الإدارة</div>
         <div style="font-family:'Space Grotesk',monospace;direction:ltr;text-align:right" id="pdfWa">+20 115 412 6052</div>
       </div>
       <div style="text-align:left">
         <div>Designed &amp; Developed by</div>
-        <div style="font-family:'Amiri',serif;color:#EAD29A;font-size:13px">anwerahmed</div>
+        <div style="font-family:'Amiri',serif;color:#EAD29A;font-size:12px">anwerahmed</div>
       </div>
     </div>
   </div>
@@ -836,7 +836,7 @@ function buildPdfDoc(b){
   ['إشعار الدفع',b.payment_proof?'تم الإرفاق ✓':'غير مرفق'],
   ['ملاحظات',esc(b.notes||'—')]
  ];
- $('#pdfRows').innerHTML=rows.map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #2a2217;font-size:14px">
+ $('#pdfRows').innerHTML=rows.map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #2a2217;font-size:12.5px">
   <span style="color:#A2988A">${k}</span><b style="color:#F3EDE2">${v}</b></div>`).join('');
  $('#pdfPrice').textContent=fmtP(b.price);
  $('#pdfDep').textContent=fmtP(b.deposit);
@@ -851,21 +851,34 @@ async function downloadPdf(b){
  const wrap=$('#pdfTemplate');
  const el=$('#pdfDoc');
  toast('جارِ تجهيز ملف PDF…');
+ const oldScroll=window.scrollY;
  try{
-  wrap.style.position='fixed';
+  wrap.style.position='absolute';
   wrap.style.left='0';
   wrap.style.top='0';
+  wrap.style.width='794px';
   wrap.style.zIndex='99999';
   wrap.style.pointerEvents='none';
+  document.documentElement.style.scrollBehavior='auto';
+  window.scrollTo(0,0);
   if(document.fonts&&document.fonts.ready){try{await document.fonts.ready}catch(_){}}
-  await new Promise(r=>setTimeout(r,300));
+  await new Promise(r=>setTimeout(r,500));
+  const isMobile=window.innerWidth<768;
   const opt={
    margin:0,
    filename:b.id+'.pdf',
-   image:{type:'jpeg',quality:.98},
-   html2canvas:{scale:2,useCORS:true,backgroundColor:'#0C0A07',logging:false,scrollX:0,scrollY:-window.scrollY},
+   image:{type:'jpeg',quality:.95},
+   html2canvas:{
+    scale:isMobile?1.5:2,
+    useCORS:true,
+    backgroundColor:'#0C0A07',
+    logging:false,
+    windowWidth:794,
+    scrollX:0,
+    scrollY:0
+   },
    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-   pagebreak:{mode:['avoid-all','css','legacy']}
+   pagebreak:{mode:['css','legacy']}
   };
   await html2pdf().set(opt).from(el).save();
   toast('تم تحميل الحجز PDF ✓');
@@ -880,6 +893,8 @@ async function downloadPdf(b){
   wrap.style.top='0';
   wrap.style.zIndex='';
   wrap.style.pointerEvents='';
+  document.documentElement.style.scrollBehavior='';
+  window.scrollTo(0,oldScroll);
  }
 }
 
