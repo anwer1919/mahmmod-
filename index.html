@@ -47,8 +47,6 @@ nav.main a{color:var(--mut);text-decoration:none;font-size:14px;font-weight:700;
 nav.main a::after{content:"";position:absolute;bottom:-6px;right:0;width:0;height:1px;background:var(--gold);transition:width .3s}
 nav.main a:hover{color:var(--gold2)}nav.main a:hover::after{width:100%}
 .hdr-cta{display:flex;gap:10px;align-items:center}
-.icon-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:var(--mut);text-decoration:none;transition:.3s}
-.icon-btn:hover{border-color:var(--gold);color:var(--gold2)}
 .burger{display:none;flex-direction:column;gap:5px;padding:8px}
 .burger i{width:22px;height:2px;background:var(--gold);display:block}
 @media(max-width:860px){nav.main{position:fixed;inset:64px 0 auto 0;background:rgba(12,10,7,.97);flex-direction:column;padding:24px 6%;gap:18px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:transform .4s}.burger{display:flex}body.nav-open nav.main{transform:none}.hdr-cta .btn{display:none}}
@@ -183,8 +181,6 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:70px 0 0}
 .ft-bar .qs{color:var(--mut)}.ft-bar .qs b{font-family:var(--disp);color:var(--gold2);font-weight:700}
 .wa{position:fixed;bottom:24px;left:24px;z-index:950;width:58px;height:58px;border-radius:50%;background:#1D8F4E;display:grid;place-items:center;color:#fff;box-shadow:0 12px 30px rgba(29,143,78,.4);transition:.3s;text-decoration:none}
 .wa:hover{transform:scale(1.1)}
-.help-fab{position:fixed;bottom:24px;right:24px;z-index:950;width:50px;height:50px;border-radius:50%;border:1px solid var(--gold);background:var(--panel2);color:var(--gold2);font-size:22px;font-family:var(--disp);box-shadow:var(--sh);transition:.3s}
-.help-fab:hover{transform:translateY(-4px);background:var(--gold);color:#241A08}
 .guide{display:grid;gap:14px;margin-top:14px}
 .guide-card{border:1px solid var(--line);border-radius:var(--r);padding:18px;background:var(--bg2)}
 .guide-card h4{font-family:var(--disp);color:var(--gold2);font-size:18px;margin-bottom:8px}
@@ -274,7 +270,6 @@ tr:hover td{background:rgba(201,164,92,.04)}
     </nav>
     <div class="hdr-cta">
       <a class="btn btn-sm" href="#book">احجز حفلتك</a>
-      <a class="icon-btn" href="#admin" title="دخول الإدارة" aria-label="دخول الإدارة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></a>
       <button class="burger" id="burger" aria-label="القائمة"><i></i><i></i><i></i></button>
     </div>
   </div>
@@ -397,8 +392,7 @@ tr:hover td{background:rgba(201,164,92,.04)}
   </div></section>
 
   <section id="gallery" style="padding-top:0"><div class="wrap">
-    <div class="sec-head" data-rev><p class="kick">المعرض</p><h2 class="sec-title">من ليالينا السابقة</h2>
-    <p>الصور تُدار بالكامل من لوحة التحكم — رفع، وصف، وحذف.</p></div>
+    <div class="sec-head" data-rev><p class="kick">المعرض</p><h2 class="sec-title">من ليالينا السابقة</h2></div>
     <div class="gal" id="galBox" data-rev></div>
   </div></section>
 
@@ -416,11 +410,11 @@ tr:hover td{background:rgba(201,164,92,.04)}
       <div>
         <h4 id="ftName">محمود نور الدين</h4>
         <p>نظام الحجز الرسمي — اختر موعدك، حدد منطقتك، وادفع العربون أونلاين في أقل من دقيقتين.</p>
-        <p style="margin-top:12px" class="lat" dir="ltr"><a href="#" id="ftWa" style="color:var(--gold2)">+20 101 234 5678</a></p>
+        <p style="margin-top:12px" class="lat" dir="ltr"><a href="#" id="ftWa" style="color:var(--gold2)">+20 115 412 6052</a></p>
       </div>
       <div><h4>تابع الفنان</h4><div class="socials" id="socials"></div></div>
       <div><h4>روابط سريعة</h4>
-        <ul><li><a href="#book">احجز حفلتك</a></li><li><a href="#gallery">المعرض</a></li><li><a href="#faq">الأسئلة الشائعة</a></li><li><a href="#admin">دخول الإدارة</a></li></ul>
+        <ul><li><a href="#book">احجز حفلتك</a></li><li><a href="#gallery">المعرض</a></li><li><a href="#faq">الأسئلة الشائعة</a></li></ul>
       </div>
     </div>
     <div class="ft-bar">
@@ -433,12 +427,11 @@ tr:hover td{background:rgba(201,164,92,.04)}
 <section id="adminView" hidden>
   <div class="adm-login" id="admLogin">
     <form class="ov-card" id="loginForm" style="transform:none">
-      <h3 class="h-disp" style="font-size:26px;text-align:center;margin-bottom:4px">دخول الإدارة</h3>
-      <p style="text-align:center;color:var(--mut);font-size:13px;margin-bottom:20px">مصادقة حقيقية عبر Supabase Auth</p>
+      <h3 class="h-disp" style="font-size:26px;text-align:center;margin-bottom:4px">منطقة خاصة</h3>
+      <p style="text-align:center;color:var(--mut);font-size:13px;margin-bottom:20px">ممنوع الوصول غير المصرح به</p>
       <div class="fg"><label>البريد الإلكتروني</label><input id="adU" type="email" autocomplete="username" dir="ltr" style="text-align:right"></div>
       <div class="fg"><label>كلمة المرور</label><input id="adP" type="password" autocomplete="current-password" dir="ltr" style="text-align:right"></div>
       <button class="btn" style="width:100%" type="submit">دخول</button>
-      <p class="adm-note">أنشئ حساب الأدمن من لوحة Supabase: Authentication → Users → Add user.</p>
     </form>
   </div>
   <div class="adm-shell" id="admShell" hidden>
@@ -464,7 +457,6 @@ tr:hover td{background:rgba(201,164,92,.04)}
   <div class="methods" id="mthBox"></div>
   <div id="mthInfo"></div>
   <button class="btn" id="doPayBtn" style="width:100%">ادفع الآن بأمان 🔒</button>
-  <p class="adm-note">بيئة تجريبية للدفع — اربط بوابة حقيقية (Paymob / Stripe) عبر Supabase Edge Functions.</p>
 </div></div>
 
 <div class="ov" id="confOv"><div class="ov-card" style="text-align:center">
@@ -486,11 +478,9 @@ tr:hover td{background:rgba(201,164,92,.04)}
 <a class="wa" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 .9-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .7.5.2.6.8 2 .9 2.1.1.2.1.4 0 .6l-.4.6c-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.3.2.5.1.7-.1l1-1.2c.2-.3.5-.2.8-.1l2.1 1c.3.2.5.3.6.4.1.2.1.8-.5 1.4z"/></svg>
 </a>
-<button class="help-fab" data-act="help" aria-label="دليل الاستخدام">؟</button>
 <div id="toast" role="status"></div>
 
 <script>
-/* ===== إعداد Supabase (بيانات مشروعك) ===== */
 const SUPABASE_URL='https://vvdexqrzstvsgwvetpai.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2ZGV4cXJ6c3R2c2d3dmV0cGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4OTY1MDAsImV4cCI6MjEwMjQ3MjUwMH0.1V5Pg0fJWzv7QWHsvTRfcehQ0aeMx_PFNyFS_cVts8E';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
@@ -520,7 +510,6 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 function tween(el,to){const from=+el.dataset.v||0;el.dataset.v=to;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/600),e=1-Math.pow(1-k,3);el.textContent=fmtP(Math.round(from+(to-from)*e));if(k<1)requestAnimationFrame(f)})(t0)}
 function scramble(el,fin){if(RM){el.textContent=fin;return}const CH='ABCDEFGHKMNPRSTUVWXYZ0123456789';let f=0;const iv=setInterval(()=>{f++;el.textContent=fin.split('').map((c,i)=>i<f?c:CH[Math.random()*CH.length|0]).join('');if(f>=fin.length)clearInterval(iv)},55)}
 
-/* ===== طبقة البيانات ===== */
 let db={settings:{artist:'محمود نور الدين',whatsapp:'',deposit:5000,socials:{},methods:{},payData:{},hero_image:''},regions:[],slots:{},bookings:[],gallery:[]};
 let isAuthed=false,persistedRegions=new Set();
 const mapBk=r=>({id:r.id,name:r.name,phone:r.phone,email:r.email||'',occasion:r.occasion||'',guests:r.guests||'',notes:r.notes||'',date:r.date,period:r.period,gov:r.gov,city:r.city||'',venue:r.venue||'',price:r.price,deposit:r.deposit,remaining:r.remaining,pay:r.pay_status,status:r.status,created:(r.created_at||'').slice(0,10)});
@@ -560,7 +549,6 @@ async function uploadImg(file){
  return sb.storage.from('images').getPublicUrl(path).data.publicUrl;
 }
 
-/* ===== حالة الحجز ===== */
 const sel={date:null,period:null,gov:'',city:'',venue:''};
 let vY=2026,vM=7;
 const today=new Date();today.setHours(0,0,0,0);
@@ -604,7 +592,7 @@ function renderSlots(){
   ${p.ic}<b>${p.n}</b><small>${p.t}</small><span class="badge">${booked?'محجوز':closed?'غير متاح':'متاح'}</span></button>`;}).join('');
 }
 function renderGallery(){
- $('#galBox').innerHTML=db.gallery.map(g=>`<figure><img src="${esc(g.url)}" alt="${esc(g.caption)}" loading="lazy" width="600" height="750"><figcaption>${esc(g.caption||'')}</figcaption></figure>`).join('')||'<p style="color:var(--dim)">لا توجد صور بعد — أضفها من لوحة التحكم.</p>';
+ $('#galBox').innerHTML=db.gallery.map(g=>`<figure><img src="${esc(g.url)}" alt="${esc(g.caption)}" loading="lazy" width="600" height="750"><figcaption>${esc(g.caption||'')}</figcaption></figure>`).join('')||'<p style="color:var(--dim)">لا توجد صور بعد.</p>';
 }
 function fillGov(){$('#govSel').innerHTML='<option value="">— اختر المحافظة —</option>'+db.regions.map(r=>`<option ${sel.gov===r.name?'selected':''}>${esc(r.name)}</option>`).join('')}
 function fillCity(){const r=db.regions.find(x=>x.name===sel.gov);$('#citySel').innerHTML=r?`<option value="">— اختر المنطقة —</option>`+r.cities.map(c=>`<option ${sel.city===c?'selected':''}>${esc(c)}</option>`).join(''):'<option value="">اختر المحافظة أولاً</option>'}
@@ -778,7 +766,7 @@ function rImgs(){
    <div style="flex:1;min-width:250px">
     <input type="file" id="heroFile" accept="image/*" hidden>
     <button class="btn" data-act="upHero">⬆ رفع صورة جديدة للخلفية</button>
-    <p class="adm-note" style="border:none;padding-top:10px">يُفضَّل مقاس 1920×1200 أو أكبر، صورة عالية الجودة للفنان. تظهر في أعلى الصفحة الرئيسية.</p>
+    <p class="adm-note" style="border:none;padding-top:10px">يُفضَّل مقاس 1920×1200 أو أكبر.</p>
    </div></div></div>
  <div class="panel"><h3>صور المعرض</h3>
   <div class="img-grid">${db.gallery.map((g,i)=>`<div class="img-card">
@@ -788,7 +776,7 @@ function rImgs(){
    <button class="btn btn-ghost btn-sm" style="color:var(--bad);border-color:rgba(208,122,106,.5)" data-act="gDel" data-id="${g.id}">حذف</button></div></div>`).join('')||'<p style="color:var(--dim)">لا توجد صور بعد.</p>'}</div>
   <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px;border-top:1px dashed var(--line);padding-top:16px">
    <input type="file" id="galFile" accept="image/*" style="max-width:270px">
-   <input id="galCap" placeholder="وصف الصورة (مثال: حفل زفاف — القاهرة)" style="max-width:300px">
+   <input id="galCap" placeholder="وصف الصورة" style="max-width:300px">
    <button class="btn" data-act="gAdd">⬆ إضافة للمعرض</button>
   </div></div>`;
  $('#heroFile').onchange=async e=>{
@@ -815,15 +803,6 @@ function rSet(){
  <button class="btn" data-act="sSave" style="margin-top:10px">حفظ الإعدادات</button>
  <p class="adm-note">كل البيانات محفوظة في Supabase ومحمية بـ Row Level Security.</p></div>`;
 }
-function openHelp(){
- $('#modalBody').innerHTML=`<h3 class="h-disp" style="font-size:24px">كيف تستخدم المنصة؟</h3>
- <div class="guide"><div class="guide-card"><h4>🎤 العميل</h4><p style="color:var(--mut);font-size:13px">بدون حساب — الحجز مباشر:</p>
- <ol><li>«احجز حفلتك»</li><li>اختر التاريخ</li><li>اختر الفترة</li><li>اختر المنطقة → يظهر السعر</li><li>بياناتك → العربون → رقم الحجز</li></ol></div>
- <div class="guide-card"><h4>🛡 الإدارة</h4><ol><li>أيقونة الدرع أعلى الصفحة</li><li>سجّل ببريد وكلمة مرور حساب الأدمن (المُنشأ في Supabase Auth)</li></ol>
- <p style="color:var(--mut);font-size:12.5px;margin-top:10px">من الداخل تدير الحجوزات والمواعيد والأسعار والصور والإعدادات.</p></div></div>`;
- $('#modal').classList.add('show');
-}
-/* ===== الأحداث ===== */
 document.addEventListener('click',async e=>{
  const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
  if(a==='pickDay'){sel.date=t.dataset.iso;sel.period=null;renderCal();renderSlots();$('#st3').hidden=false;updateSummary();
@@ -883,7 +862,6 @@ document.addEventListener('click',async e=>{
  if(a==='bCancel'){if(confirm('إلغاء الحجز؟ سيتم تحرير الموعد فورًا.')){
   await sb.from('bookings').update({status:'cancelled'}).eq('id',t.dataset.id);
   await hydrate();rBook();toast('تم الإلغاء وتحرير الموعد')}}
- if(a==='help')openHelp();
  if(a==='closePay')$('#payOv').classList.remove('show');
  if(a==='closeConf')$('#confOv').classList.remove('show');
  if(a==='closeModal')$('#modal').classList.remove('show');
@@ -896,7 +874,7 @@ document.addEventListener('change',async e=>{
  if(e.target.dataset.act==='slotSet'){const{iso:dISO,p}=e.target.dataset;
   if(e.target.value==='closed')await sb.from('closures').upsert({date:dISO,period:p});
   else await sb.from('closures').delete().eq('date',dISO).eq('period',p);
-  await hydrate();renderCal();rSched();toast('تم التحديث — انعكس على الموقع فورًا')}
+  await hydrate();renderCal();rSched();toast('تم التحديث')}
 });
 document.addEventListener('input',e=>{
  if(e.target.id==='ccNum'){let v=e.target.value.replace(/\D/g,'').slice(0,16);e.target.value=v.replace(/(.{4})/g,'$1 ').trim()}
@@ -920,7 +898,7 @@ addEventListener('scroll',()=>$('#hdr').classList.toggle('sc',scrollY>40),{passi
 $('#burger').onclick=()=>document.body.classList.toggle('nav-open');
 $$('#mainNav a').forEach(a=>a.onclick=()=>document.body.classList.remove('nav-open'));
 $$('.qa button').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));
-function route(){const adm=location.hash==='#admin';$('#adminView').hidden=!adm;$('#publicView').hidden=adm;$('#hdr').style.display=adm?'none':'';$('#waFloat').style.display=adm?'none':'';document.querySelector('.help-fab').style.display=adm?'none':'';if(adm)renderAdm()}
+function route(){const adm=location.hash==='#admin';$('#adminView').hidden=!adm;$('#publicView').hidden=adm;$('#hdr').style.display=adm?'none':'';$('#waFloat').style.display=adm?'none':'';if(adm)renderAdm()}
 addEventListener('hashchange',route);
 setInterval(async()=>{const ae=document.activeElement;
  if(ae&&['INPUT','SELECT','TEXTAREA'].includes(ae.tagName))return;
