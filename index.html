@@ -210,7 +210,6 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:70px 0 0}
 .rcv-title{font-family:var(--disp);font-size:26px;text-align:center;margin-bottom:8px}
 .rcv-sub{color:var(--mut);font-size:13.5px;text-align:center;margin-bottom:20px}
 .rcv-note{background:rgba(216,180,90,.08);border:1px dashed var(--warn);border-radius:8px;padding:14px;font-size:13px;color:#D8D0C2;margin:16px 0;text-align:center}
-/* إشعار الدفع */
 .proof-box{border:1px dashed var(--line2);border-radius:8px;padding:14px;margin-bottom:14px;background:rgba(201,164,92,.03)}
 .proof-box label{font-size:13px;color:var(--mut);font-weight:700;display:block;margin-bottom:8px}
 .proof-preview{margin-top:10px;position:relative;display:inline-block}
@@ -266,7 +265,7 @@ tr:hover td{background:rgba(201,164,92,.04)}
 .img-card img{width:100%;aspect-ratio:4/5;object-fit:cover}
 .img-card input{border:none;border-radius:0;border-bottom:1px solid var(--line);background:transparent}
 .img-card .acts{padding:10px;display:flex;gap:8px}
-#pdfTemplate{position:fixed;left:-9999px;top:0;width:794px;background:#0C0A07;color:#F3EDE2;font-family:'Almarai',sans-serif;direction:rtl;padding:0}
+#pdfTemplate{position:absolute;left:-9999px;top:0;width:794px;background:#0C0A07;color:#F3EDE2;font-family:'Almarai',sans-serif;direction:rtl;padding:0}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -493,15 +492,15 @@ tr:hover td{background:rgba(201,164,92,.04)}
   <div id="rcvProofWrap"></div>
   <div class="conf-grid" id="rcvGrid"></div>
   <div style="display:grid;gap:10px;grid-template-columns:1fr 1fr">
-    <button class="btn" data-act="downloadPdf">⬇ تحميل الحجز PDF</button>
-    <a class="btn btn-ghost" id="rcvWa" href="#" target="_blank" rel="noopener">تواصل عبر واتساب</a>
+    <button class="btn" data-act="downloadPdf">⬇ تحميل PDF</button>
+    <button class="btn" data-act="sharePdf">📤 إرسال PDF عبر واتساب</button>
   </div>
+  <a class="btn btn-ghost" id="rcvWa" href="#" target="_blank" rel="noopener" style="width:100%;margin-top:10px">💬 تواصل عبر واتساب (رسالة فقط)</a>
   <button class="btn btn-ghost btn-sm" data-act="closeRcv" style="width:100%;margin-top:10px">العودة للموقع</button>
 </div></div>
 
 <div class="ov" id="modal"><div class="ov-card"><button class="ov-x" data-act="closeModal">✕</button><div id="modalBody"></div></div></div>
 
-<!-- modal لعرض صورة الإشعار مكبرة -->
 <div class="ov" id="imgOv" style="z-index:1300"><div class="ov-card" style="width:min(720px,100%);padding:12px;background:transparent;border:none;box-shadow:none">
   <button class="ov-x" data-act="closeImgOv" style="background:var(--panel2)">✕</button>
   <img id="imgOvImg" src="" style="width:100%;border-radius:10px;border:1px solid var(--line2)" alt="إشعار الدفع">
@@ -639,7 +638,6 @@ async function uploadImg(file){
  if(error)throw error;
  return sb.storage.from('images').getPublicUrl(path).data.publicUrl;
 }
-// رفع صورة إشعار الدفع إلى مجلد proofs داخل Storage
 async function uploadProof(file){
  const ext=(file.name.split('.').pop()||'jpg').toLowerCase();
  const path=`proofs/${Date.now()}-${Math.random().toString(36).slice(2,7)}.${ext}`;
@@ -648,7 +646,6 @@ async function uploadProof(file){
  return sb.storage.from('images').getPublicUrl(path).data.publicUrl;
 }
 
-/* تناوب صور قسم "من هو" */
 let aboutImages=[];let aboutIndex=0;let aboutTimer=null;
 function buildAboutImages(){
  aboutImages=db.gallery.map(g=>g.url);
@@ -673,7 +670,6 @@ function switchAboutImage(){
 function startAboutRotation(){if(aboutTimer)clearInterval(aboutTimer);if(aboutImages.length>1)aboutTimer=setInterval(nextAboutImage,6000)}
 function stopAboutRotation(){if(aboutTimer)clearInterval(aboutTimer);aboutTimer=null}
 
-/* معاينة صورة الإشعار قبل الرفع */
 function setupProofPreview(){
  $('#proofFile').addEventListener('change',function(){
   const f=this.files[0];const prev=$('#proofPreview');
@@ -792,7 +788,6 @@ function renderMthInfo(){
 async function doPay(){
  if(curMth==='card'){const n=$('#ccNum').value.replace(/\s/g,'');if(n.length<16||!$('#ccExp').value||$('#ccCvv').value.length<3){toast('أكمل بيانات البطاقة');return}}
  const btn=$('#doPayBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> جارِ معالجة الدفع…';
- // رفع صورة الإشعار أولاً إن وجدت
  let proofUrl='';
  const proofFile=$('#proofFile').files[0];
  if(proofFile){
@@ -845,19 +840,41 @@ function buildPdfDoc(b){
  $('#pdfWa').textContent='+'+String(db.settings.whatsapp).replace(/^2/,'2');
 }
 async function downloadPdf(b){
- if(typeof html2pdf==='undefined'){toast('مكتبة PDF لم تُحمَّل بعد — أعد تحميل الصفحة');return}
+ if(typeof html2pdf==='undefined'){toast('مكتبة PDF لم تُحمَّل بعد — أعد تحميل الصفحة');return false}
  buildPdfDoc(b);
+ const wrap=$('#pdfTemplate');
  const el=$('#pdfDoc');
  toast('جارِ تجهيز ملف PDF…');
  try{
-  await document.fonts.ready;
-  await new Promise(r=>setTimeout(r,150));
-  const opt={margin:0,filename:b.id+'.pdf',image:{type:'jpeg',quality:.98},
-   html2canvas:{scale:2,useCORS:true,backgroundColor:'#0C0A07',logging:false,windowWidth:794},
-   jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+  wrap.style.position='fixed';
+  wrap.style.left='0';
+  wrap.style.top='0';
+  wrap.style.zIndex='99999';
+  wrap.style.pointerEvents='none';
+  if(document.fonts&&document.fonts.ready){try{await document.fonts.ready}catch(_){}}
+  await new Promise(r=>setTimeout(r,300));
+  const opt={
+   margin:0,
+   filename:b.id+'.pdf',
+   image:{type:'jpeg',quality:.98},
+   html2canvas:{scale:2,useCORS:true,backgroundColor:'#0C0A07',logging:false,scrollX:0,scrollY:-window.scrollY},
+   jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+   pagebreak:{mode:['avoid-all','css','legacy']}
+  };
   await html2pdf().set(opt).from(el).save();
   toast('تم تحميل الحجز PDF ✓');
- }catch(e){console.error('PDF Error:',e);toast('خطأ في توليد PDF — أعد المحاولة')}
+  return true;
+ }catch(e){
+  console.error('PDF Error:',e);
+  toast('تعذّر توليد الـ PDF — أعد المحاولة');
+  return false;
+ }finally{
+  wrap.style.position='absolute';
+  wrap.style.left='-9999px';
+  wrap.style.top='0';
+  wrap.style.zIndex='';
+  wrap.style.pointerEvents='';
+ }
 }
 
 const SOC=[['instagram','Instagram','<path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5zm4 5.5A3.5 3.5 0 1 0 15.5 12 3.5 3.5 0 0 0 12 8.5zM16.8 6.9a.9.9 0 1 0 .9.9.9.9 0 0 0-.9-.9z"/>'],['tiktok','TikTok','<path d="M14 3v9.5a3.5 3.5 0 1 1-3.5-3.5V12a1.5 1.5 0 1 0 1.5 1.5V3h2a4.5 4.5 0 0 0 4 4v2a6.5 6.5 0 0 1-4-1.5z"/>'],['facebook','Facebook','<path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3V11H9v3h2.3v7z"/>'],['youtube','YouTube','<path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12z"/>'],['snapchat','Snapchat','<path d="M12 3c2.8 0 4.5 2 4.5 4.7 0 .6 0 1.2-.1 1.7.3.1.8 0 1.3-.2.5-.2 1 .3.7.8-.4.8-1.6 1.3-1.9 1.4 0 .4.4 1 1.5 1.7.5.3.3 1-.3 1-.4 0-1 .1-1.4.4-.4.4-.7 1.3-2.3 1.3a3.7 3.7 0 0 1-2-.7 2.6 2.6 0 0 0-2 0 3.7 3.7 0 0 1-2 .7c-1.6 0-1.9-.9-2.3-1.3-.4-.3-1-.4-1.4-.4-.6 0-.8-.7-.3-1 1.1-.7 1.5-1.3 1.5-1.7-.3-.1-1.5-.6-1.9-1.4-.3-.5.2-1 .7-.8.5.2 1 .3 1.3.2 0-.5-.1-1.1-.1-1.7C7.5 5 9.2 3 12 3z"/>']];
@@ -1060,6 +1077,16 @@ document.addEventListener('click',async e=>{
   await sb.from('bookings').update({status:'cancelled'}).eq('id',t.dataset.id);
   await hydrate();rBook();toast('تم الإلغاء وتحرير الموعد')}}
  if(a==='downloadPdf'){if(lastBooking)await downloadPdf(lastBooking)}
+ if(a==='sharePdf'){
+  if(lastBooking){
+   const ok=await downloadPdf(lastBooking);
+   if(ok){
+    await new Promise(r=>setTimeout(r,900));
+    const msg=`مرحباً، هذه تفاصيل حجز رقم ${lastBooking.id} بتاريخ ${dispDate(lastBooking.date)} (${pName(lastBooking.period)}).\n\nتم تنزيل ملف الـ PDF على جهازك للتو — فضلاً أرفقه في هذه المحادثة بالضغط على 📎 واختيار الملف من التنزيلات لإتمام مراجعة طلبك.`;
+    window.open(waLink(msg),'_blank');
+   }
+  }
+ }
  if(a==='closePay')$('#payOv').classList.remove('show');
  if(a==='closeRcv')$('#rcvOv').classList.remove('show');
  if(a==='closeModal')$('#modal').classList.remove('show');
