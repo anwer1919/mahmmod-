@@ -4,28 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>محمود نور الدين — احجز موعد حفلتك</title>
-<meta name="description" content="نظام الحجز الرسمي للفنان محمود نورالدين - اختر الموعد والمنطقة وادفع العربون أونلاين.">
 <meta name="theme-color" content="#0C0A07">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Almarai:wght@300;400;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --bg:#0C0A07; --bg2:#13100B; --panel:#171310; --panel2:#1D1812;
-  --ink:#F3EDE2; --mut:#A2988A; --dim:#6E6558;
-  --gold:#C9A45C; --gold2:#EAD29A; --goldD:#8A6A33; --line:rgba(201,164,92,.22); --line2:rgba(201,164,92,.4);
-  --bad:#D07A6A; --ok:#8FBF7F; --warn:#D8B45A;
-  --disp:'Amiri',serif; --body:'Almarai',sans-serif; --lat:'Space Grotesk',monospace;
-  --r:10px; --sh:0 24px 60px rgba(0,0,0,.5);
-}
+:root{--bg:#0C0A07;--bg2:#13100B;--panel:#171310;--panel2:#1D1812;--ink:#F3EDE2;--mut:#A2988A;--dim:#6E6558;--gold:#C9A45C;--gold2:#EAD29A;--goldD:#8A6A33;--line:rgba(201,164,92,.22);--line2:rgba(201,164,92,.4);--bad:#D07A6A;--ok:#8FBF7F;--warn:#D8B45A;--disp:'Amiri',serif;--body:'Almarai',sans-serif;--lat:'Space Grotesk',monospace;--r:10px;--sh:0 24px 60px rgba(0,0,0,.5)}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;overflow-x:hidden}
-[hidden]{display:none!important}
-img{display:block;max-width:100%}
+[hidden]{display:none!important}img{display:block;max-width:100%}
 button{font-family:inherit;cursor:pointer;color:inherit;background:none;border:none}
-input,select,textarea{font-family:inherit;font-size:15px;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;width:100%;outline:none;transition:border-color .25s, box-shadow .25s}
+input,select,textarea{font-family:inherit;font-size:15px;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;width:100%;outline:none;transition:border-color .25s,box-shadow .25s}
 input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,164,92,.15)}
+input[type="file"]{padding:9px;font-size:13px;color:var(--mut)}
 select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A45C' fill='none' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;padding-left:36px}
 .lat{font-family:var(--lat);direction:ltr;unicode-bidi:embed}
 ::selection{background:var(--gold);color:#1a1408}
@@ -34,14 +27,11 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .kick::before{content:"";width:34px;height:1px;background:var(--gold)}
 .h-disp{font-family:var(--disp);font-weight:700;line-height:1.25}
 .sec-title{font-family:var(--disp);font-size:clamp(28px,4vw,44px);font-weight:700}
-.sec-head{margin-bottom:36px}
-.sec-head p{color:var(--mut);max-width:560px;margin-top:8px}
+.sec-head{margin-bottom:36px}.sec-head p{color:var(--mut);max-width:560px;margin-top:8px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--gold2),var(--gold) 45%,var(--goldD));color:#241A08;font-weight:800;font-size:15px;padding:15px 34px;border-radius:8px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;text-decoration:none}
 .btn::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);transition:left .6s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(201,164,92,.28)}
-.btn:hover::after{left:130%}
-.btn:active{transform:translateY(0)}
-.btn[disabled]{opacity:.45;pointer-events:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(201,164,92,.28)}.btn:hover::after{left:130%}
+.btn:active{transform:translateY(0)}.btn[disabled]{opacity:.45;pointer-events:none}
 .btn-ghost{background:transparent;border:1px solid var(--line2);color:var(--gold2)}
 .btn-ghost:hover{border-color:var(--gold);box-shadow:0 10px 26px rgba(0,0,0,.4)}
 .btn-sm{padding:8px 16px;font-size:13px;border-radius:6px}
@@ -51,8 +41,7 @@ header.sc{background:rgba(12,10,7,.92);backdrop-filter:blur(12px);border-color:v
 .hdr-in{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
 .logo .mono{width:42px;height:42px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-family:var(--disp);font-size:20px;color:var(--gold2)}
-.logo b{font-family:var(--disp);font-size:20px}
-.logo small{display:block;color:var(--gold);font-size:10px;font-weight:400}
+.logo b{font-family:var(--disp);font-size:20px}.logo small{display:block;color:var(--gold);font-size:10px;font-weight:400}
 nav.main{display:flex;gap:28px}
 nav.main a{color:var(--mut);text-decoration:none;font-size:14px;font-weight:700;transition:color .25s;position:relative}
 nav.main a::after{content:"";position:absolute;bottom:-6px;right:0;width:0;height:1px;background:var(--gold);transition:width .3s}
@@ -61,37 +50,34 @@ nav.main a:hover{color:var(--gold2)}nav.main a:hover::after{width:100%}
 .icon-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:var(--mut);text-decoration:none;transition:.3s}
 .icon-btn:hover{border-color:var(--gold);color:var(--gold2)}
 .burger{display:none;flex-direction:column;gap:5px;padding:8px}
-.burger i{width:22px;height:2px;background:var(--gold);display:block;transition:.3s}
+.burger i{width:22px;height:2px;background:var(--gold);display:block}
 @media(max-width:860px){nav.main{position:fixed;inset:64px 0 auto 0;background:rgba(12,10,7,.97);flex-direction:column;padding:24px 6%;gap:18px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:transform .4s}.burger{display:flex}body.nav-open nav.main{transform:none}.hdr-cta .btn{display:none}}
 .hero{min-height:100svh;position:relative;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05)}
+.hero-bg{position:absolute;inset:0}.hero-bg img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05)}
 .kb img{animation:kb 22s ease-in-out infinite alternate}
 @keyframes kb{from{transform:scale(1)}to{transform:scale(1.12) translate(-2%,-2%)}}
-.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 6%,rgba(12,10,7,.55) 45%,rgba(12,10,7,.35)),radial-gradient(120% 90% at 80% 10%,transparent 40%,rgba(12,10,7,.55))}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 6%,rgba(12,10,7,.55) 45%,rgba(12,10,7,.35))}
 .hero-frame{position:absolute;inset:18px;border:1px solid rgba(201,164,92,.28);pointer-events:none}
 .hero-in{position:relative;z-index:2;padding-bottom:9vh;width:min(1180px,92%);margin-inline:auto}
 .mask{overflow:hidden;display:block}
 .mask>span{display:block;transform:translateY(115%);animation:rise 1.1s cubic-bezier(.2,.7,.2,1) forwards}
 @keyframes rise{to{transform:none}}
-.hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(52px,10vw,120px);line-height:1.15;text-shadow:0 8px 40px rgba(0,0,0,.6)}
+.hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(48px,9vw,110px);line-height:1.2;text-shadow:0 8px 40px rgba(0,0,0,.6)}
 .hero .kick{margin-bottom:14px}
 .hero .sub{color:#D8D0C2;max-width:460px;margin:14px 0 28px;font-weight:300;font-size:clamp(15px,1.6vw,18px)}
 .hero-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-.hero-note{color:var(--mut);font-size:13px;display:flex;align-items:center;gap:8px}
+.hero-note{color:var(--mut);font-size:13px}
 .scroll-cue{position:absolute;bottom:26px;left:50%;width:1px;height:56px;background:var(--line2);overflow:hidden}
 .scroll-cue::after{content:"";position:absolute;top:-40%;right:0;width:100%;height:40%;background:var(--gold2);animation:cue 2.2s ease-in-out infinite}
 @keyframes cue{to{top:110%}}
 .ticker{border-block:1px solid var(--line);padding:16px 0;overflow:hidden;background:var(--bg2)}
 .tk{display:flex;width:max-content;animation:tk 30s linear infinite}
-.tk span{white-space:nowrap;color:var(--mut);font-size:14px;padding-inline:22px;display:flex;align-items:center;gap:22px}
-.tk b{color:var(--gold);font-weight:400}
+.tk span{white-space:nowrap;color:var(--mut);font-size:14px;padding-inline:22px}
+.tk b{color:var(--gold);font-weight:400;padding-inline:11px}
 @keyframes tk{to{transform:translateX(50%)}}
-section{padding:96px 0}
-@media(max-width:700px){section{padding:64px 0}}
+section{padding:96px 0}@media(max-width:700px){section{padding:64px 0}}
 .about{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
-.about-img{position:relative}
-.about-img img{border-radius:var(--r);filter:saturate(.9)}
+.about-img{position:relative}.about-img img{border-radius:var(--r);filter:saturate(.9)}
 .about-img::before{content:"";position:absolute;inset:-16px 16px 16px -16px;border:1px solid var(--line2);border-radius:var(--r);z-index:-1}
 .about p{color:var(--mut);margin:16px 0 22px}
 .inc{list-style:none;display:grid;gap:10px}
@@ -109,18 +95,16 @@ section{padding:96px 0}
 .steps-bar{display:flex;gap:6px;margin-bottom:34px;flex-wrap:wrap}
 .stp{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);border:1px solid var(--line);border-radius:100px;padding:7px 14px;transition:.35s}
 .stp i{width:18px;height:18px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-style:normal;font-size:10px;font-family:var(--lat)}
-.stp.on{color:var(--gold2);border-color:var(--gold)}
-.stp.on i{background:var(--gold);color:#241A08;border-color:var(--gold)}
+.stp.on{color:var(--gold2);border-color:var(--gold)}.stp.on i{background:var(--gold);color:#241A08;border-color:var(--gold)}
 .stp.done{color:var(--ok);border-color:rgba(143,191,127,.4)}.stp.done i{background:var(--ok);color:#0c0a07;border-color:var(--ok)}
 .step{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px;margin-bottom:22px;animation:pop .5s cubic-bezier(.2,.7,.2,1)}
 @keyframes pop{from{opacity:0;transform:translateY(18px)}}
 .step h3{font-family:var(--disp);font-size:24px;margin-bottom:4px}
 .step .hint{color:var(--mut);font-size:13px;margin-bottom:18px}
-/* today bar */
 .today-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:linear-gradient(135deg,rgba(201,164,92,.12),rgba(201,164,92,.04));border:1px solid var(--line2);border-radius:var(--r);padding:14px 18px;margin-bottom:18px}
 .today-bar .td-date{font-family:var(--disp);font-size:20px;color:var(--gold2)}
 .today-bar .td-meta{color:var(--mut);font-size:12.5px}
-.today-bar .td-time{font-family:var(--lat);font-size:14px;color:var(--ink);border:1px solid var(--line2);border-radius:100px;padding:5px 14px;direction:ltr}
+.today-bar .td-time{font-family:var(--lat);font-size:14px;border:1px solid var(--line2);border-radius:100px;padding:5px 14px;direction:ltr}
 .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .cal-title{font-family:var(--disp);font-size:22px;color:var(--gold2)}
 .cal-nav{width:38px;height:38px;border:1px solid var(--line);border-radius:8px;color:var(--gold);font-size:18px;transition:.25s}
@@ -128,7 +112,7 @@ section{padding:96px 0}
 .cal-nav[disabled]{opacity:.25;pointer-events:none}
 .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;color:var(--dim);font-size:11.5px;margin-bottom:8px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.cal-day{aspect-ratio:1;border:1px solid transparent;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--lat);font-size:14.5px;color:var(--ink);transition:.25s;position:relative}
+.cal-day{aspect-ratio:1;border:1px solid transparent;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--lat);font-size:14.5px;transition:.25s;position:relative}
 .cal-day:hover:not(.off):not(.full):not(.closed):not(.today){border-color:var(--gold);background:rgba(201,164,92,.08)}
 .cal-day .dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
 .cal-day.partial .dot{animation:pulse 1.8s infinite}
@@ -140,8 +124,7 @@ section{padding:96px 0}
 .cal-day.full{color:var(--dim);opacity:.45;pointer-events:none}
 .cal-day.full::after{content:"مكتمل";font-family:var(--body);font-size:8.5px;color:var(--bad)}
 .cal-day.sel{background:linear-gradient(135deg,var(--gold2),var(--goldD));color:#241A08;border-color:var(--gold);font-weight:700}
-.cal-day.sel::before{color:#241A08}
-.cal-day.sel .dot{background:#241A08}
+.cal-day.sel::before{color:#241A08}.cal-day.sel .dot{background:#241A08}
 .pick-echo{margin-top:16px;border:1px dashed var(--line2);border-radius:8px;padding:12px 16px;font-size:14px;color:var(--mut)}
 .pick-echo b{color:var(--gold2)}
 .cal-legend{display:flex;gap:18px;margin-top:16px;font-size:12px;color:var(--mut);flex-wrap:wrap}
@@ -155,8 +138,7 @@ section{padding:96px 0}
 .per small{color:var(--dim);font-family:var(--lat);font-size:11px;display:block;margin-bottom:10px}
 .per .badge{font-size:11px;padding:4px 12px;border-radius:100px;border:1px solid var(--line2);color:var(--gold2)}
 .per:hover:not(.dis){border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--sh)}
-.per.dis{opacity:.45;cursor:not-allowed}
-.per.dis .badge{border-color:rgba(208,122,106,.5);color:var(--bad)}
+.per.dis{opacity:.45;cursor:not-allowed}.per.dis .badge{border-color:rgba(208,122,106,.5);color:var(--bad)}
 .per.sel{border-color:var(--gold);background:rgba(201,164,92,.1)}
 .per.sel::after{content:"✓";position:absolute;top:10px;left:12px;color:var(--gold2)}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -172,23 +154,21 @@ section{padding:96px 0}
 .sum::before{content:"";position:absolute;top:0;right:0;left:0;height:3px;background:linear-gradient(90deg,var(--goldD),var(--gold2),var(--goldD));border-radius:var(--r) var(--r) 0 0}
 .sum h3{font-family:var(--disp);font-size:22px;margin-bottom:16px}
 .sum-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(201,164,92,.1);font-size:14px}
-.sum-row span{color:var(--mut)}
-.sum-row b{font-weight:700;text-align:left}
+.sum-row span{color:var(--mut)}.sum-row b{font-weight:700;text-align:left}
 .sum-row .ph{color:var(--dim);font-weight:400}
 .sum-tot{margin-top:14px;padding-top:14px;border-top:1px solid var(--line2)}
 .sum-tot .sum-row b{color:var(--gold2);font-family:var(--lat);font-size:18px}
-.gal{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;scrollbar-width:thin;scrollbar-color:var(--goldD) transparent}
+.gal{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px}
 .gal figure{flex:0 0 min(300px,75vw);scroll-snap-align:start;position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--line)}
-.gal img{aspect-ratio:4/5;width:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1);filter:saturate(.85)}
+.gal img{aspect-ratio:4/5;width:100%;object-fit:cover;transition:transform 1.2s;filter:saturate(.85)}
 .gal figure:hover img{transform:scale(1.08)}
 .gal figcaption{position:absolute;bottom:0;right:0;left:0;padding:36px 16px 14px;background:linear-gradient(transparent,rgba(12,10,7,.9));font-size:13px;color:var(--gold2)}
 .faq{max-width:760px;margin-inline:auto}
 .qa{border-bottom:1px solid var(--line)}
-.qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:20px 4px;font-size:16px;font-weight:700;color:var(--ink);text-align:right}
-.qa i{font-style:normal;color:var(--gold);font-size:20px;transition:transform .35s;flex:0 0 auto}
+.qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:20px 4px;font-size:16px;font-weight:700;text-align:right}
+.qa i{font-style:normal;color:var(--gold);font-size:20px;transition:transform .35s}
 .qa .a{max-height:0;overflow:hidden;transition:max-height .4s;color:var(--mut);font-size:14.5px}
-.qa.open i{transform:rotate(45deg)}
-.qa.open .a{max-height:200px;padding-bottom:20px}
+.qa.open i{transform:rotate(45deg)}.qa.open .a{max-height:200px;padding-bottom:20px}
 footer{border-top:1px solid var(--line);background:var(--bg2);padding:70px 0 0}
 .ft{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;padding-bottom:50px}
 @media(max-width:860px){.ft{grid-template-columns:1fr}}
@@ -198,56 +178,49 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:70px 0 0}
 .ft a:hover{color:var(--gold2)}
 .socials{display:flex;gap:12px;flex-wrap:wrap}
 .socials a{width:46px;height:46px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center;color:var(--gold);transition:.3s}
-.socials a:hover{background:var(--gold);color:#241A08;transform:translateY(-4px);box-shadow:0 10px 24px rgba(201,164,92,.25)}
+.socials a:hover{background:var(--gold);color:#241A08;transform:translateY(-4px)}
 .ft-bar{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--dim)}
 .ft-bar .qs{color:var(--mut)}.ft-bar .qs b{font-family:var(--disp);color:var(--gold2);font-weight:700}
 .wa{position:fixed;bottom:24px;left:24px;z-index:950;width:58px;height:58px;border-radius:50%;background:#1D8F4E;display:grid;place-items:center;color:#fff;box-shadow:0 12px 30px rgba(29,143,78,.4);transition:.3s;text-decoration:none}
-.wa:hover{transform:scale(1.1) rotate(6deg)}
-.wa::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(29,143,78,.5);animation:wa 2.4s infinite}
-@keyframes wa{to{transform:scale(1.35);opacity:0}}
+.wa:hover{transform:scale(1.1)}
 .help-fab{position:fixed;bottom:24px;right:24px;z-index:950;width:50px;height:50px;border-radius:50%;border:1px solid var(--gold);background:var(--panel2);color:var(--gold2);font-size:22px;font-family:var(--disp);box-shadow:var(--sh);transition:.3s}
 .help-fab:hover{transform:translateY(-4px);background:var(--gold);color:#241A08}
 .guide{display:grid;gap:14px;margin-top:14px}
 .guide-card{border:1px solid var(--line);border-radius:var(--r);padding:18px;background:var(--bg2)}
-.guide-card h4{font-family:var(--disp);color:var(--gold2);font-size:18px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.guide-card h4{font-family:var(--disp);color:var(--gold2);font-size:18px;margin-bottom:8px}
 .guide-card ol{margin:8px 18px 0;color:var(--mut);font-size:13.5px;display:grid;gap:6px}
-.guide-card .cred{background:var(--panel);border:1px dashed var(--line2);border-radius:6px;padding:8px 12px;font-family:var(--lat);direction:ltr;text-align:center;color:var(--gold2);margin-top:10px}
 .ov{position:fixed;inset:0;z-index:1200;background:rgba(8,6,4,.85);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;overflow:auto;opacity:0;pointer-events:none;transition:opacity .35s}
 .ov.show{opacity:1;pointer-events:auto}
-.ov-card{background:var(--panel2);border:1px solid var(--line2);border-radius:14px;width:min(560px,100%);padding:34px;position:relative;transform:translateY(24px);transition:transform .4s cubic-bezier(.2,.7,.2,1);box-shadow:var(--sh);max-height:90vh;overflow:auto}
+.ov-card{background:var(--panel2);border:1px solid var(--line2);border-radius:14px;width:min(560px,100%);padding:34px;position:relative;transform:translateY(24px);transition:transform .4s;box-shadow:var(--sh);max-height:90vh;overflow:auto}
 .ov.show .ov-card{transform:none}
-.ov-x{position:absolute;top:14px;left:14px;width:36px;height:36px;border:1px solid var(--line);border-radius:50%;color:var(--mut);font-size:16px}
+.ov-x{position:absolute;top:14px;left:14px;width:36px;height:36px;border:1px solid var(--line);border-radius:50%;color:var(--mut)}
 .ov-x:hover{border-color:var(--bad);color:var(--bad)}
 .methods{display:grid;gap:10px;margin:16px 0}
 .mth{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:8px;padding:14px;cursor:pointer;transition:.25s}
-.mth:hover{border-color:var(--line2)}
-.mth input{width:auto}
-.mth.on{border-color:var(--gold);background:rgba(201,164,92,.08)}
-.mth b{font-size:14.5px}
+.mth input{width:auto}.mth.on{border-color:var(--gold);background:rgba(201,164,92,.08)}
 .dep-big{text-align:center;padding:18px;border:1px dashed var(--line2);border-radius:var(--r);margin:14px 0}
 .dep-big b{font-family:var(--lat);font-size:34px;color:var(--gold2);display:block}
 .dep-big span{color:var(--mut);font-size:13px}
 .pay-info{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:14px;font-size:13.5px;color:var(--mut);margin-bottom:14px}
-.spinner{width:18px;height:18px;border:2px solid rgba(0,0,0,.25);border-top-color:#241A08;border-radius:50%;animation:spin .7s linear infinite}
+.spinner{width:18px;height:18px;border:2px solid rgba(0,0,0,.25);border-top-color:#241A08;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
 .check-wrap{width:84px;height:84px;margin:0 auto 18px}
 .ck-c{fill:none;stroke:var(--gold);stroke-width:2;stroke-dasharray:302;stroke-dashoffset:302}
 .ck-p{fill:none;stroke:var(--gold2);stroke-width:4;stroke-linecap:round;stroke-dasharray:60;stroke-dashoffset:60}
-.show .ck-c{animation:dr .9s .1s ease forwards}
-.show .ck-p{animation:dr .5s .8s ease forwards}
+.show .ck-c{animation:dr .9s .1s ease forwards}.show .ck-p{animation:dr .5s .8s ease forwards}
 @keyframes dr{to{stroke-dashoffset:0}}
 .bid{text-align:center;font-family:var(--lat);font-size:26px;color:var(--gold2);letter-spacing:2px;direction:ltr;margin:8px 0 20px}
 .conf-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border-radius:8px;overflow:hidden;margin-bottom:20px}
 .conf-grid div{background:var(--bg2);padding:12px 14px;font-size:13px}
 .conf-grid span{color:var(--mut);display:block;font-size:11.5px}
-#toast{position:fixed;bottom:26px;right:50%;transform:translate(50%,80px);z-index:2500;background:var(--panel2);border:1px solid var(--gold);color:var(--ink);padding:13px 24px;border-radius:100px;font-size:14px;transition:transform .4s cubic-bezier(.2,.7,.2,1);box-shadow:var(--sh);max-width:90vw;text-align:center}
+#toast{position:fixed;bottom:26px;right:50%;transform:translate(50%,80px);z-index:2500;background:var(--panel2);border:1px solid var(--gold);padding:13px 24px;border-radius:100px;font-size:14px;transition:transform .4s;box-shadow:var(--sh);max-width:90vw;text-align:center}
 #toast.show{transform:translate(50%,0)}
-[data-rev]{opacity:0;transform:translateY(26px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}
+[data-rev]{opacity:0;transform:translateY(26px);transition:opacity .8s,transform .8s}
 [data-rev].in{opacity:1;transform:none}
 #adminView{min-height:100vh;background:#0E0D0B}
 .adm-login{min-height:100vh;display:grid;place-items:center;padding:20px}
 .adm-shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
-@media(max-width:900px){.adm-shell{grid-template-columns:1fr}.adm-side{position:static!important;width:100%!important;height:auto!important;display:flex!important;overflow-x:auto;padding:10px 14px!important;gap:6px!important;border-left:none!important;border-bottom:1px solid var(--line)}.adm-side .side-btm{display:none}.adm-tab{white-space:nowrap}}
+@media(max-width:900px){.adm-shell{grid-template-columns:1fr}.adm-side{position:static!important;width:100%!important;height:auto!important;display:flex!important;overflow-x:auto;padding:10px 14px!important;gap:6px!important;border-left:none!important;border-bottom:1px solid var(--line)}.adm-side .side-btm,.adm-side .logo{display:none}.adm-tab{white-space:nowrap}}
 .adm-side{background:var(--bg2);border-left:1px solid var(--line);padding:26px 18px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
 .adm-side .logo{margin-bottom:26px}
 .adm-tab{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;color:var(--mut);font-weight:700;font-size:14px;text-align:right;transition:.25s;border:1px solid transparent}
@@ -276,14 +249,18 @@ tr:hover td{background:rgba(201,164,92,.04)}
 .bd.completed{background:rgba(143,191,127,.12);color:var(--ok);border:1px solid rgba(143,191,127,.4)}
 .bar-row{display:grid;grid-template-columns:110px 1fr 40px;align-items:center;gap:12px;margin-bottom:12px;font-size:13px}
 .bar{height:8px;background:var(--bg2);border-radius:100px;overflow:hidden}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--goldD),var(--gold2));border-radius:100px;width:0;transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
-.adm-cal-day{cursor:pointer}
-.adm-cal-day.has{outline:1px solid var(--line2)}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--goldD),var(--gold2));border-radius:100px;width:0;transition:width 1.2s}
+.adm-cal-day{cursor:pointer}.adm-cal-day.has{outline:1px solid var(--line2)}
 .insp{display:grid;gap:12px}
 .insp-row{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
 .insp-row select{width:auto;min-width:120px}
 .adm-note{font-size:12px;color:var(--dim);border-top:1px dashed var(--line);padding-top:14px;margin-top:8px}
-@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.img-card{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg2)}
+.img-card img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.img-card input{border:none;border-radius:0;border-bottom:1px solid var(--line);background:transparent}
+.img-card .acts{padding:10px;display:flex;gap:8px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -291,7 +268,7 @@ tr:hover td{background:rgba(201,164,92,.04)}
 
 <header id="hdr">
   <div class="wrap hdr-in">
-    <a class="logo" href="#home"><span class="mono">أ</span><span><b id="lgName">أحمد سلطان</b><small>الحجوزات الرسمية</small></span></a>
+    <a class="logo" href="#home"><span class="mono" id="lgMono">م</span><span><b id="lgName">محمود نور الدين</b><small>الحجوزات الرسمية</small></span></a>
     <nav class="main" id="mainNav">
       <a href="#home">الرئيسية</a><a href="#about">عن الفنان</a><a href="#book">الحجز</a><a href="#gallery">المعرض</a><a href="#faq">الأسئلة الشائعة</a>
     </nav>
@@ -305,11 +282,11 @@ tr:hover td{background:rgba(201,164,92,.04)}
 
 <main id="publicView">
   <section class="hero" id="home" style="padding:0">
-    <div class="hero-bg kb"><img src="https://picsum.photos/seed/luxury-artist-stage/1920/1200" alt="الفنان على المسرح" fetchpriority="high"></div>
+    <div class="hero-bg kb"><img id="heroImg" src="https://picsum.photos/seed/mahmoud-noureldin-stage/1920/1200" alt="الفنان على المسرح" fetchpriority="high"></div>
     <div class="hero-ov"></div><div class="hero-frame" aria-hidden="true"></div>
     <div class="hero-in">
       <p class="kick">لإحياء الحفلات والمناسبات الخاصة</p>
-      <h1><span class="mask"><span id="heroName" style="animation-delay:.15s">أحمد سلطان</span></span></h1>
+      <h1><span class="mask"><span id="heroName" style="animation-delay:.15s">محمود نور الدين</span></span></h1>
       <p class="sub mask"><span style="animation-delay:.4s">احجز موعد حفلتك الآن — زفاف، خطوبة، تخرج أو مناسبة خاصة. تجربة فنية راقية تليق بلحظتك.</span></p>
       <div class="hero-row" data-rev>
         <a class="btn" href="#book">احجز حفلتك <span aria-hidden="true">←</span></a>
@@ -318,16 +295,14 @@ tr:hover td{background:rgba(201,164,92,.04)}
     </div>
     <div class="scroll-cue" aria-hidden="true"></div>
   </section>
-
   <div class="ticker" aria-hidden="true"><div class="tk" id="tk"></div></div>
-
   <section id="about"><div class="wrap">
     <div class="about">
-      <div class="about-img" data-rev><img src="https://picsum.photos/seed/artist-portrait-dark/860/1080" alt="صورة الفنان" loading="lazy" width="860" height="1080"></div>
+      <div class="about-img" data-rev><img src="https://picsum.photos/seed/mahmoud-portrait/860/1080" alt="صورة الفنان" loading="lazy" width="860" height="1080"></div>
       <div data-rev>
         <p class="kick">من هو</p>
         <h2 class="sec-title" style="margin:10px 0 4px">صوتٌ يصنع الذاكرة</h2>
-        <p>أكثر من عقد من إحياء أضخم الحفلات والمناسبات الخاصة في مختلف المحافظات. كل حفل يُجهَّز له بفريق متكامل لضمان ليلة لا تُنسى — من أول نغمة حتى آخر تصفيقة.</p>
+        <p>أكثر من عقد من إحياء أضخم الحفلات والمناسبات الخاصة في مختلف المحافظات. كل حفل يُجهَّز له بفريق متكامل لضمان ليلة لا تُنسى.</p>
         <ul class="inc">
           <li>فريق صوت وإضاءة احترافي مُرفق</li>
           <li>برنامج فني مُخصص حسب المناسبة</li>
@@ -359,7 +334,6 @@ tr:hover td{background:rgba(201,164,92,.04)}
     </div>
     <div class="bk-grid">
       <div>
-        <!-- STEP 1: DATE -->
         <div class="step" id="st1">
           <h3>١ — اختر تاريخ الحفلة</h3>
           <p class="hint">التقويم يبدأ من اليوم الحالي. الحجز متاح من الغد ولمدة ٤ أشهر.</p>
@@ -373,12 +347,10 @@ tr:hover td{background:rgba(201,164,92,.04)}
             <span><i style="background:#4a4238"></i> مكتمل / مغلق</span>
           </div>
         </div>
-        <!-- STEP 2: TIME -->
         <div class="step" id="st2" hidden>
           <h3>٢ — اختر الفترة الزمنية</h3><p class="hint" id="slotDateHint"></p>
           <div class="periods" id="perBox"></div>
         </div>
-        <!-- STEP 3: LOCATION -->
         <div class="step" id="st3" hidden>
           <h3>٣ — أين ستكون حفلتك؟</h3><p class="hint">يُحدد سعر الحجز تلقائيًا حسب المحافظة.</p>
           <div class="frow">
@@ -388,7 +360,6 @@ tr:hover td{background:rgba(201,164,92,.04)}
           <div class="fg"><label>الصالة أو موقع الحفلة (اختياري)</label><input id="venueIn" placeholder="مثال: قاعة الماسة — شارع التسعين"></div>
           <div class="price-line" id="priceLine" hidden><span style="color:var(--mut)">سعر الحجز في هذه المنطقة</span><b id="priceVal">0</b></div>
         </div>
-        <!-- STEP 4: DATA -->
         <div class="step" id="st4" hidden>
           <h3>٤ — بيانات العميل</h3><p class="hint">لن يكتمل الحجز بدون البيانات الأساسية.</p>
           <div class="frow">
@@ -404,7 +375,6 @@ tr:hover td{background:rgba(201,164,92,.04)}
             <div class="fg"><label>ملاحظات إضافية</label><input id="cNotes" placeholder="أي تفاصيل تهمنا معرفتها"></div>
           </div>
         </div>
-        <!-- STEP 5: PAY -->
         <div class="step" id="st5" hidden>
           <h3>٥ — مراجعة وتأكيد</h3><p class="hint">راجع التفاصيل ثم انتقل لدفع العربون لتأكيد موعدك.</p>
           <div id="revBox"></div>
@@ -413,7 +383,7 @@ tr:hover td{background:rgba(201,164,92,.04)}
       </div>
       <aside class="sum" data-rev>
         <h3>تفاصيل الحجز</h3>
-        <div class="sum-row"><span>الفنان</span><b id="sumArtist">أحمد سلطان</b></div>
+        <div class="sum-row"><span>الفنان</span><b id="sumArtist">محمود نور الدين</b></div>
         <div class="sum-row"><span>التاريخ</span><b id="sumDate" class="ph">لم يُحدد بعد</b></div>
         <div class="sum-row"><span>الفترة</span><b id="sumPer" class="ph">—</b></div>
         <div class="sum-row"><span>الموقع</span><b id="sumLoc" class="ph">—</b></div>
@@ -427,45 +397,34 @@ tr:hover td{background:rgba(201,164,92,.04)}
   </div></section>
 
   <section id="gallery" style="padding-top:0"><div class="wrap">
-    <div class="sec-head" data-rev><p class="kick">المعرض</p><h2 class="sec-title">من ليالينا السابقة</h2></div>
-    <div class="gal" data-rev>
-      <figure><img src="https://picsum.photos/seed/concert-lights-night/600/750" alt="حفل ليلي" loading="lazy" width="600" height="750"><figcaption>حفل زفاف — القاهرة</figcaption></figure>
-      <figure><img src="https://picsum.photos/seed/gold-microphone-stage/600/750" alt="الميكروفون" loading="lazy" width="600" height="750"><figcaption>سهرة خاصة — الساحل الشمالي</figcaption></figure>
-      <figure><img src="https://picsum.photos/seed/luxury-wedding-hall/600/750" alt="قاعة فاخرة" loading="lazy" width="600" height="750"><figcaption>قاعة الماسة — الجيزة</figcaption></figure>
-      <figure><img src="https://picsum.photos/seed/crowd-cheering-party/600/750" alt="الجمهور" loading="lazy" width="600" height="750"><figcaption>حفل تخرج — الإسكندرية</figcaption></figure>
-      <figure><img src="https://picsum.photos/seed/elegant-band-performance/600/750" alt="الفرقة" loading="lazy" width="600" height="750"><figcaption>مؤتمر شركة — التجمع</figcaption></figure>
-    </div>
+    <div class="sec-head" data-rev><p class="kick">المعرض</p><h2 class="sec-title">من ليالينا السابقة</h2>
+    <p>الصور تُدار بالكامل من لوحة التحكم — رفع، وصف، وحذف.</p></div>
+    <div class="gal" id="galBox" data-rev></div>
   </div></section>
 
   <section id="faq" style="padding-top:0"><div class="wrap">
     <div class="sec-head" data-rev style="text-align:center"><p class="kick" style="justify-content:center">الأسئلة الشائعة</p><h2 class="sec-title">كل ما تحتاج معرفته</h2></div>
     <div class="faq" data-rev>
-      <div class="qa"><button>كيف يتم تأكيد الحجز؟<i>+</i></button><div class="a">يتم تأكيد الحجز فورًا بعد دفع العربون إلكترونيًا واستلام رقم الحجز الخاص بك. يُسدد المبلغ المتبقي قبل الحفل بـ 7 أيام.</div></div>
-      <div class="qa"><button>كم قيمة العربون؟<i>+</i></button><div class="a">العربون قيمة ثابتة تظهر لك في ملخص الحجز قبل الدفع، ويُخصم من إجمالي سعر الحفلة.</div></div>
-      <div class="qa"><button>هل يمكن الإلغاء أو تعديل الموعد؟<i>+</i></button><div class="a">يمكن تعديل الموعد قبل الحفل بـ 14 يومًا حسب التوافر. للإلغاء تواصل مع الإدارة عبر واتساب وسيتم مراجعة حالتك.</div></div>
-      <div class="qa"><button>منطقتي غير موجودة في القائمة، ماذا أفعل؟<i>+</i></button><div class="a">اختر «مناطق أخرى» وسيُحدد السعر النهائي حسب المسافة، أو تواصل معنا مباشرة عبر واتساب لعرض سعر مخصص.</div></div>
-      <div class="qa"><button>كم مدة الفقرة الفنية؟<i>+</i></button><div class="a">الفقرة الأساسية 90 دقيقة قابلة للتمديد بالاتفاق المسبق، وتشمل تجهيزات الصوت والإضاءة الأساسية.</div></div>
+      <div class="qa"><button>كيف يتم تأكيد الحجز؟<i>+</i></button><div class="a">يتم تأكيد الحجز فورًا بعد دفع العربون إلكترونيًا واستلام رقم الحجز. يُسدد المبلغ المتبقي قبل الحفل بـ 7 أيام.</div></div>
+      <div class="qa"><button>هل يمكن الإلغاء أو تعديل الموعد؟<i>+</i></button><div class="a">يمكن تعديل الموعد قبل الحفل بـ 14 يومًا حسب التوافر. للإلغاء تواصل مع الإدارة عبر واتساب.</div></div>
+      <div class="qa"><button>منطقتي غير موجودة في القائمة؟<i>+</i></button><div class="a">اختر «مناطق أخرى» وسيُحدد السعر النهائي حسب المسافة، أو تواصل معنا عبر واتساب.</div></div>
     </div>
   </div></section>
 
   <footer id="contact"><div class="wrap">
     <div class="ft">
       <div>
-        <h4 id="ftName">أحمد سلطان</h4>
+        <h4 id="ftName">محمود نور الدين</h4>
         <p>نظام الحجز الرسمي — اختر موعدك، حدد منطقتك، وادفع العربون أونلاين في أقل من دقيقتين.</p>
         <p style="margin-top:12px" class="lat" dir="ltr"><a href="#" id="ftWa" style="color:var(--gold2)">+20 101 234 5678</a></p>
       </div>
-      <div>
-        <h4>تابع الفنان</h4>
-        <div class="socials" id="socials"></div>
-      </div>
-      <div>
-        <h4>روابط سريعة</h4>
+      <div><h4>تابع الفنان</h4><div class="socials" id="socials"></div></div>
+      <div><h4>روابط سريعة</h4>
         <ul><li><a href="#book">احجز حفلتك</a></li><li><a href="#gallery">المعرض</a></li><li><a href="#faq">الأسئلة الشائعة</a></li><li><a href="#admin">دخول الإدارة</a></li></ul>
       </div>
     </div>
     <div class="ft-bar">
-      <span>© <span class="lat">2026</span> <span id="ftName2">أحمد سلطان</span> — جميع الحقوق محفوظة</span>
+      <span>© <span class="lat">2026</span> <span id="ftName2">محمود نور الدين</span> — جميع الحقوق محفوظة</span>
       <span class="qs">Designed &amp; Developed by <b>Qween Studio</b></span>
     </div>
   </div></footer>
@@ -475,11 +434,11 @@ tr:hover td{background:rgba(201,164,92,.04)}
   <div class="adm-login" id="admLogin">
     <form class="ov-card" id="loginForm" style="transform:none">
       <h3 class="h-disp" style="font-size:26px;text-align:center;margin-bottom:4px">دخول الإدارة</h3>
-      <p style="text-align:center;color:var(--mut);font-size:13px;margin-bottom:20px">منطقة خاصة بإدارة حجوزات الفنان فقط</p>
-      <div class="fg"><label>اسم المستخدم</label><input id="adU" autocomplete="username" dir="ltr" style="text-align:right"></div>
+      <p style="text-align:center;color:var(--mut);font-size:13px;margin-bottom:20px">مصادقة حقيقية عبر Supabase Auth</p>
+      <div class="fg"><label>البريد الإلكتروني</label><input id="adU" type="email" autocomplete="username" dir="ltr" style="text-align:right"></div>
       <div class="fg"><label>كلمة المرور</label><input id="adP" type="password" autocomplete="current-password" dir="ltr" style="text-align:right"></div>
       <button class="btn" style="width:100%" type="submit">دخول</button>
-      <p class="adm-note">نسخة تجريبية — بيانات الدخول: <span class="lat">admin / qween2026</span>. في الإنتاج تتم المصادقة عبر الخادم.</p>
+      <p class="adm-note">أنشئ حساب الأدمن من لوحة Supabase: Authentication → Users → Add user.</p>
     </form>
   </div>
   <div class="adm-shell" id="admShell" hidden>
@@ -489,6 +448,7 @@ tr:hover td{background:rgba(201,164,92,.04)}
       <button class="adm-tab" data-tab="book">📋 الحجوزات</button>
       <button class="adm-tab" data-tab="sched">🗓 إدارة المواعيد</button>
       <button class="adm-tab" data-tab="price">💰 إدارة الأسعار</button>
+      <button class="adm-tab" data-tab="imgs">🖼 إدارة الصور</button>
       <button class="adm-tab" data-tab="set">⚙ الإعدادات</button>
       <div class="side-btm"><button class="adm-tab" id="logoutBtn">⎋ تسجيل الخروج</button></div>
     </aside>
@@ -504,7 +464,7 @@ tr:hover td{background:rgba(201,164,92,.04)}
   <div class="methods" id="mthBox"></div>
   <div id="mthInfo"></div>
   <button class="btn" id="doPayBtn" style="width:100%">ادفع الآن بأمان 🔒</button>
-  <p class="adm-note">بيئة تجريبية — في الإنتاج يتم الربط ببوابة دفع معتمدة ولا تُخزن أي بيانات بطاقات في الواجهة.</p>
+  <p class="adm-note">بيئة تجريبية للدفع — اربط بوابة حقيقية (Paymob / Stripe) عبر Supabase Edge Functions.</p>
 </div></div>
 
 <div class="ov" id="confOv"><div class="ov-card" style="text-align:center">
@@ -530,7 +490,12 @@ tr:hover td{background:rgba(201,164,92,.04)}
 <div id="toast" role="status"></div>
 
 <script>
-const KEY='qween_booking_db_v1';
+/* ===== إعداد Supabase ===== */
+const SUPABASE_URL='https://YOUR-PROJECT.supabase.co';
+const SUPABASE_ANON_KEY='YOUR-ANON-KEY';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const FALLBACK_HERO='https://picsum.photos/seed/mahmoud-noureldin-stage/1920/1200';
+
 const MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 const DN=['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
 const DF=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -542,45 +507,7 @@ const PERIODS=[
 const STATUS_AR={pending:'معلق',confirmed:'مؤكد',cancelled:'ملغي',completed:'مكتمل'};
 const PAY_AR={deposit:'عربون مدفوع',paid:'مدفوع بالكامل',pending:'بانتظار التحويل'};
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-function seedDB(){
- const regions=[
-  {id:'r1',name:'القاهرة',price:15000,cities:['مدينة نصر','مصر الجديدة','التجمع الخامس','وسط البلد','المعادي'],note:''},
-  {id:'r2',name:'الجيزة',price:17000,cities:['الدقي','المهندسين','الشيخ زايد','6 أكتوبر'],note:''},
-  {id:'r3',name:'الإسكندرية',price:25000,cities:['سموحة','جليم','ميامي','الساحل الشمالي'],note:''},
-  {id:'r4',name:'الشرقية',price:22000,cities:['الزقازيق','العاشر من رمضان'],note:''},
-  {id:'r5',name:'مناطق أخرى',price:30000,cities:['خارج النطاق'],note:'السعر النهائي يُحدد حسب المسافة'}
- ];
- const raw=[
-  [117,'منى عبد الرحمن','01012345678','2026-07-10','evening','القاهرة','completed','paid'],
-  [118,'شركة نايل إيفنتس','01198765432','2026-07-18','morning','الجيزة','completed','paid'],
-  [119,'خالد سامي','01234567890','2026-07-25','afternoon','الإسكندرية','completed','paid'],
-  [120,'سارة مصطفى','01055667788','2026-08-01','evening','القاهرة','completed','paid'],
-  [121,'عمر الشناوي','01277889900','2026-08-08','evening','الشرقية','completed','paid'],
-  [122,'نادين هاني','01099887766','2026-08-21','evening','القاهرة','confirmed','deposit'],
-  [123,'مصطفى كامل','01122334455','2026-08-28','afternoon','الجيزة','confirmed','deposit'],
-  [124,'حبيبة أشرف','01066554433','2026-09-05','evening','الإسكندرية','pending','deposit']
- ];
- const bookings=raw.map(([n,name,phone,date,period,gov,status,pay])=>{
-   const price=regions.find(r=>r.name===gov).price, deposit=Math.min(5000,price);
-   return {id:`QW-2026-${String(n).padStart(5,'0')}`,name,phone,email:'',occasion:'حفل خاص',guests:'',notes:'',date,period,gov,city:'',venue:'',price,deposit,remaining:price-deposit,pay,status,created:date};
- });
- const slots={};
- bookings.forEach(b=>{(slots[b.date]??={})[b.period]=b.id;});
- slots['2026-08-22']={morning:'closed',afternoon:'closed',evening:'closed'};
- slots['2026-08-25']={evening:'closed'};
- return {seq:125,
-  settings:{artist:'أحمد سلطان',whatsapp:'201012345678',deposit:5000,
-   socials:{instagram:'#',tiktok:'#',facebook:'#',youtube:'#',snapchat:'#'},
-   methods:{card:true,instapay:true,bank:true},
-   payData:{instapay:'ahmed-sultan@instapay',bank:'بنك مصر — حساب 1234 5678 9012'}},
-  regions,slots,bookings};
-}
-let db=JSON.parse(localStorage.getItem(KEY)||'null')||seedDB();
-function saveDB(){localStorage.setItem(KEY,JSON.stringify(db))}
-saveDB();
-
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtP=n=>(+n||0).toLocaleString('ar-EG')+' جنيه';
 const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -590,26 +517,55 @@ const pName=k=>PERIODS.find(p=>p.k===k)?.n||k;
 const getSlot=(d,p)=>db.slots[d]?.[p];
 const regionPrice=g=>db.regions.find(r=>r.name===g)?.price||0;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3200)}
-function tween(el,to){const from=+el.dataset.v||0;el.dataset.v=to;if(RM){el.textContent=fmtP(to);return}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/600),e=1-Math.pow(1-k,3);el.textContent=fmtP(Math.round(from+(to-from)*e));if(k<1)requestAnimationFrame(f)})(t0)}
+function tween(el,to){const from=+el.dataset.v||0;el.dataset.v=to;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/600),e=1-Math.pow(1-k,3);el.textContent=fmtP(Math.round(from+(to-from)*e));if(k<1)requestAnimationFrame(f)})(t0)}
 function scramble(el,fin){if(RM){el.textContent=fin;return}const CH='ABCDEFGHKMNPRSTUVWXYZ0123456789';let f=0;const iv=setInterval(()=>{f++;el.textContent=fin.split('').map((c,i)=>i<f?c:CH[Math.random()*CH.length|0]).join('');if(f>=fin.length)clearInterval(iv)},55)}
 
-function commitBooking(d){
- const fresh=JSON.parse(localStorage.getItem(KEY)||'null'); if(fresh)db=fresh;
- const v=db.slots[d.date]?.[d.period];
- if(v)return{err:v==='closed'?'عذراً، هذه الفترة لم تعد متاحة. الرجاء اختيار موعد آخر.':'عذراً، تم حجز هذه الفترة للتو من عميل آخر. الرجاء اختيار موعد آخر.'};
- const id='QW-'+d.date.slice(0,4)+'-'+String(db.seq++).padStart(5,'0');
- (db.slots[d.date]??={})[d.period]=id;
- const b={id,...d,created:new Date().toISOString().slice(0,10)};
- db.bookings.unshift(b);saveDB();return{ok:b};
+/* ===== طبقة البيانات ===== */
+let db={settings:{artist:'محمود نور الدين',whatsapp:'',deposit:5000,socials:{},methods:{},payData:{},hero_image:''},regions:[],slots:{},bookings:[],gallery:[]};
+let isAuthed=false,persistedRegions=new Set();
+const mapBk=r=>({id:r.id,name:r.name,phone:r.phone,email:r.email||'',occasion:r.occasion||'',guests:r.guests||'',notes:r.notes||'',date:r.date,period:r.period,gov:r.gov,city:r.city||'',venue:r.venue||'',price:r.price,deposit:r.deposit,remaining:r.remaining,pay:r.pay_status,status:r.status,created:(r.created_at||'').slice(0,10)});
+async function hydrate(){
+ const sess=(await sb.auth.getSession()).data.session;isAuthed=!!sess;
+ const qs=[sb.from('settings').select('*').eq('id',1).maybeSingle(),
+  sb.from('regions').select('*').order('sort'),
+  sb.from('busy_slots').select('*'),
+  sb.from('closures').select('*'),
+  sb.from('gallery').select('*').order('sort')];
+ if(isAuthed)qs.push(sb.from('bookings').select('*').order('created_at',{ascending:false}));
+ const res=await Promise.all(qs);
+ const [s,r,busy,clos,gal]=res,bks=res[5];
+ if(s.data){const x=s.data;db.settings={artist:x.artist,whatsapp:x.whatsapp,deposit:x.deposit,socials:x.socials||{},methods:x.methods||{},payData:x.pay_data||{},hero_image:x.hero_image||''}}
+ db.regions=(r.data||[]).map(x=>({id:x.id,name:x.name,price:x.price,cities:x.cities||[],note:x.note||''}));
+ persistedRegions=new Set(db.regions.map(x=>x.id));
+ db.slots={};
+ (busy.data||[]).forEach(x=>{(db.slots[x.date]??={})[x.period]=x.booking_id});
+ (clos.data||[]).forEach(x=>{(db.slots[x.date]??={})[x.period]='closed'});
+ db.gallery=gal.data||[];
+ db.bookings=isAuthed?(bks?.data||[]).map(mapBk):[];
 }
-function freeSlot(b){const day=db.slots[b.date];if(day&&day[b.period]===b.id){delete day[b.period];if(!Object.keys(day).length)delete db.slots[b.date];saveDB()}}
+async function commitBooking(d){
+ const {data,error}=await sb.rpc('book_slot',{p_date:d.date,p_period:d.period,p_name:d.name,p_phone:d.phone,p_email:d.email||'',p_occasion:d.occasion||'',p_guests:d.guests||'',p_notes:d.notes||'',p_gov:d.gov,p_city:d.city||'',p_venue:d.venue||'',p_price:d.price,p_deposit:d.deposit,p_pay:d.pay,p_status:d.status});
+ if(error){const m=String(error.message||'');
+  if(m.includes('SLOT_TAKEN'))return{err:'عذراً، تم حجز هذه الفترة للتو من عميل آخر. الرجاء اختيار موعد آخر.'};
+  if(m.includes('SLOT_UNAVAILABLE'))return{err:'عذراً، هذه الفترة لم تعد متاحة.'};
+  return{err:'حدث خطأ أثناء الحجز. حاول مجددًا.'};}
+ await hydrate();
+ return{ok:{...d,id:data}};
+}
+async function uploadImg(file){
+ const ext=(file.name.split('.').pop()||'jpg').toLowerCase();
+ const path=`${Date.now()}-${Math.random().toString(36).slice(2,7)}.${ext}`;
+ const {error}=await sb.storage.from('images').upload(path,file,{cacheControl:'3600'});
+ if(error)throw error;
+ return sb.storage.from('images').getPublicUrl(path).data.publicUrl;
+}
 
+/* ===== حالة الحجز ===== */
 const sel={date:null,period:null,gov:'',city:'',venue:''};
 let vY=2026,vM=7;
 const today=new Date();today.setHours(0,0,0,0);
 const minD=new Date(today);minD.setDate(minD.getDate()+1);
 const maxD=new Date(today);maxD.setDate(maxD.getDate()+120);
-
 function renderTodayBar(){
  const n=new Date();
  $('#todayBar').innerHTML=`<div><div class="td-date">اليوم: ${DF[n.getDay()]} ${n.getDate()} ${MONTHS[n.getMonth()]} ${n.getFullYear()}</div>
@@ -617,34 +573,26 @@ function renderTodayBar(){
  <div class="td-time" id="liveClock">${n.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})}</div>`;
 }
 setInterval(()=>{const el=$('#liveClock');if(el)el.textContent=new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})},30000);
-
-function dayState(dISO){
- let taken=0,closed=0;
- PERIODS.forEach(p=>{const v=getSlot(dISO,p.k);if(v==='closed')closed++;else if(v)taken++});
- if(closed===3)return'closed'; if(taken+closed===3)return'full'; if(taken+closed>0)return'partial'; return'open';
-}
+function dayState(dISO){let taken=0,closed=0;PERIODS.forEach(p=>{const v=getSlot(dISO,p.k);if(v==='closed')closed++;else if(v)taken++});
+ if(closed===3)return'closed';if(taken+closed===3)return'full';if(taken+closed>0)return'partial';return'open'}
 function renderCal(){
  const first=new Date(vY,vM,1),lead=(first.getDay()+1)%7,dim=new Date(vY,vM+1,0).getDate();
  const nowM=today.getFullYear()*12+today.getMonth(),cur=vY*12+vM;
- let h=`<div class="cal-head">
-  <button class="cal-nav" data-act="calNext" ${cur>=nowM+3?'disabled':''} aria-label="الشهر التالي">‹</button>
-  <div class="cal-title">${MONTHS[vM]} <span class="lat">${vY}</span></div>
-  <button class="cal-nav" data-act="calPrev" ${cur<=nowM?'disabled':''} aria-label="الشهر السابق">›</button></div>
+ let h=`<div class="cal-head"><button class="cal-nav" data-act="calNext" ${cur>=nowM+3?'disabled':''}>‹</button>
+ <div class="cal-title">${MONTHS[vM]} <span class="lat">${vY}</span></div>
+ <button class="cal-nav" data-act="calPrev" ${cur<=nowM?'disabled':''}>›</button></div>
  <div class="cal-days">${DN.map(d=>`<span>${d}</span>`).join('')}</div><div class="cal-grid">`;
  for(let i=0;i<lead;i++)h+='<span></span>';
  for(let d=1;d<=dim;d++){
-  const dt=new Date(vY,vM,d),dISO=iso(dt);
-  let cls='cal-day',dis='';
-  const isToday=+dt===+today;
-  if(isToday){cls+=' today';dis='disabled'}
+  const dt=new Date(vY,vM,d),dISO=iso(dt);let cls='cal-day',dis='';
+  if(+dt===+today){cls+=' today';dis='disabled'}
   else if(dt<minD||dt>maxD){cls+=' off';dis='disabled'}
   else{const st=dayState(dISO);
    if(st==='closed'){cls+=' closed';dis='disabled'}
    else if(st==='full'){cls+=' full';dis='disabled'}
    else if(st==='partial')cls+=' partial';
    if(sel.date===dISO)cls+=' sel';}
-  h+=`<button class="${cls}" data-act="pickDay" data-iso="${dISO}" ${dis}>${d}${cls.includes('partial')?'<span class="dot"></span>':''}</button>`;
- }
+  h+=`<button class="${cls}" data-act="pickDay" data-iso="${dISO}" ${dis}>${d}${cls.includes('partial')?'<span class="dot"></span>':''}</button>`;}
  $('#calBox').innerHTML=h+'</div>';
 }
 function renderSlots(){
@@ -652,10 +600,11 @@ function renderSlots(){
  $('#st2').hidden=false;$('#slotDateHint').textContent=dispDate(sel.date)+' — الفترات المحجوزة معطّلة تلقائيًا';
  $('#perBox').innerHTML=PERIODS.map(p=>{
   const v=getSlot(sel.date,p.k),booked=v&&v!=='closed',closed=v==='closed',dis=booked||closed;
-  const bd=booked?'محجوز':closed?'غير متاح':'متاح';
   return `<button class="per ${dis?'dis':''} ${sel.period===p.k?'sel':''}" data-act="pickPer" data-p="${p.k}" ${dis?'disabled':''}>
-   ${p.ic}<b>${p.n}</b><small>${p.t}</small><span class="badge">${bd}</span></button>`;
- }).join('');
+  ${p.ic}<b>${p.n}</b><small>${p.t}</small><span class="badge">${booked?'محجوز':closed?'غير متاح':'متاح'}</span></button>`;}).join('');
+}
+function renderGallery(){
+ $('#galBox').innerHTML=db.gallery.map(g=>`<figure><img src="${esc(g.url)}" alt="${esc(g.caption)}" loading="lazy" width="600" height="750"><figcaption>${esc(g.caption||'')}</figcaption></figure>`).join('')||'<p style="color:var(--dim)">لا توجد صور بعد — أضفها من لوحة التحكم.</p>';
 }
 function fillGov(){$('#govSel').innerHTML='<option value="">— اختر المحافظة —</option>'+db.regions.map(r=>`<option ${sel.gov===r.name?'selected':''}>${esc(r.name)}</option>`).join('')}
 function fillCity(){const r=db.regions.find(x=>x.name===sel.gov);$('#citySel').innerHTML=r?`<option value="">— اختر المنطقة —</option>`+r.cities.map(c=>`<option ${sel.city===c?'selected':''}>${esc(c)}</option>`).join(''):'<option value="">اختر المحافظة أولاً</option>'}
@@ -666,8 +615,7 @@ function formOK(show){
  const f=[['#cName',v=>v.trim().length>=3],['#cPhone',v=>{v=v.replace(/[\s-]/g,'');return /^(\+?2)?01\d{9}$/.test(v)}],['#cMail',v=>!v||/^\S+@\S+\.\S+$/.test(v)],['#cOcc',v=>v.trim().length>=2]];
  let ok=true;
  f.forEach(([id,fn])=>{const el=$(id),bad=!fn(el.value);if(show){el.classList.toggle('err',bad);el.nextElementSibling.style.display=bad?'block':'none'}if(bad)ok=false});
- lastValid=ok;return ok;
-}
+ lastValid=ok;return ok;}
 function updateSummary(){
  $('#sumArtist').textContent=db.settings.artist;
  $('#sumDate').textContent=sel.date?dispDate(sel.date):'لم يُحدد بعد';$('#sumDate').classList.toggle('ph',!sel.date);
@@ -675,8 +623,7 @@ function updateSummary(){
  $('#sumLoc').textContent=sel.gov?`${sel.gov}${sel.city?' — '+sel.city:''}`:'—';$('#sumLoc').classList.toggle('ph',!sel.gov);
  const p=price();
  $('#sumPrice').textContent=p?fmtP(p):'—';$('#sumDep').textContent=p?fmtP(dep()):'—';$('#sumRem').textContent=p?fmtP(p-dep()):'—';
- $('#priceLine').hidden=!p; if(p)tween($('#priceVal'),p);
- markSteps();
+ $('#priceLine').hidden=!p;if(p)tween($('#priceVal'),p);markSteps();
 }
 function markSteps(){
  const states=[true,!!sel.date,!!sel.period,!!sel.gov,lastValid];
@@ -686,15 +633,13 @@ function markSteps(){
 function renderReview(){
  if(!sel.gov)return;$('#st5').hidden=false;
  $('#revBox').innerHTML=`
-  <div class="sum-row"><span>الفنان</span><b>${esc(db.settings.artist)}</b></div>
-  <div class="sum-row"><span>التاريخ</span><b>${dispDate(sel.date)}</b></div>
-  <div class="sum-row"><span>الفترة</span><b>${pName(sel.period)}</b></div>
-  <div class="sum-row"><span>الموقع</span><b>${esc(sel.gov)}${sel.city?' — '+esc(sel.city):''}${sel.venue?' — '+esc(sel.venue):''}</b></div>
-  <div class="sum-tot">
-   <div class="sum-row"><span>سعر الحجز</span><b>${fmtP(price())}</b></div>
-   <div class="sum-row"><span>العربون</span><b>${fmtP(dep())}</b></div>
-   <div class="sum-row"><span>المتبقي</span><b style="color:var(--mut)">${fmtP(price()-dep())}</b></div>
-  </div>`;
+ <div class="sum-row"><span>الفنان</span><b>${esc(db.settings.artist)}</b></div>
+ <div class="sum-row"><span>التاريخ</span><b>${dispDate(sel.date)}</b></div>
+ <div class="sum-row"><span>الفترة</span><b>${pName(sel.period)}</b></div>
+ <div class="sum-row"><span>الموقع</span><b>${esc(sel.gov)}${sel.city?' — '+esc(sel.city):''}${sel.venue?' — '+esc(sel.venue):''}</b></div>
+ <div class="sum-tot"><div class="sum-row"><span>سعر الحجز</span><b>${fmtP(price())}</b></div>
+ <div class="sum-row"><span>العربون</span><b>${fmtP(dep())}</b></div>
+ <div class="sum-row"><span>المتبقي</span><b style="color:var(--mut)">${fmtP(price()-dep())}</b></div></div>`;
 }
 let curMth='card';
 function openPay(){
@@ -703,9 +648,9 @@ function openPay(){
  $('#paySub').textContent=`${dispDate(sel.date)} — ${pName(sel.period)} — ${sel.gov}`;
  $('#payAmt').textContent=fmtP(dep());$('#payRemTxt').textContent=`المتبقي بعد الحفل: ${fmtP(price()-dep())}`;
  const M=db.settings.methods,items=[];
- if(M.card)items.push(['card','بطاقة بنكية','فيزا / ماستركارد — خصم فوري للعربون']);
- if(M.instapay)items.push(['instapay','InstaPay','تحويل فوري عبر تطبيق إنستاباي']);
- if(M.bank)items.push(['bank','تحويل بنكي','يُؤكد الحجز بعد مراجعة التحويل']);
+ if(M.card)items.push(['card','بطاقة بنكية','فيزا / ماستركارد']);
+ if(M.instapay)items.push(['instapay','InstaPay','تحويل فوري']);
+ if(M.bank)items.push(['bank','تحويل بنكي','يُؤكد بعد المراجعة']);
  curMth=items[0]?.[0]||'';
  $('#mthBox').innerHTML=items.map(([k,t,s],i)=>`<label class="mth ${i===0?'on':''}" data-m="${k}"><input type="radio" name="mth" value="${k}" ${i===0?'checked':''}><span><b>${t}</b><br><small style="color:var(--mut);font-size:12px">${s}</small></span></label>`).join('');
  renderMthInfo();$('#payOv').classList.add('show');
@@ -713,26 +658,25 @@ function openPay(){
 function renderMthInfo(){
  const box=$('#mthInfo');
  if(curMth==='card')box.innerHTML=`<div class="frow" style="margin-bottom:14px">
-   <div class="fg" style="grid-column:1/-1"><label>رقم البطاقة</label><input id="ccNum" class="lat" style="text-align:right" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19"></div>
-   <div class="fg"><label>الانتهاء</label><input id="ccExp" class="lat" style="text-align:right" placeholder="MM/YY" maxlength="5"></div>
-   <div class="fg"><label>CVV</label><input id="ccCvv" class="lat" style="text-align:right" inputmode="numeric" maxlength="4" placeholder="•••"></div></div>`;
- else if(curMth==='instapay')box.innerHTML=`<div class="pay-info">حوّل قيمة العربون إلى عنوان إنستاباي:<br><b class="lat" style="color:var(--gold2)">${esc(db.settings.payData.instapay)}</b><br>ثم اضغط «ادفع الآن» وسنؤكد الحجز فورًا.</div>`;
- else box.innerHTML=`<div class="pay-info">حوّل إلى:<br><b style="color:var(--gold2)">${esc(db.settings.payData.bank)}</b><br>سيظهر حجزك بحالة «معلق» حتى تأكيد التحويل من الإدارة.</div>`;
+  <div class="fg" style="grid-column:1/-1"><label>رقم البطاقة</label><input id="ccNum" class="lat" style="text-align:right" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+  <div class="fg"><label>الانتهاء</label><input id="ccExp" class="lat" style="text-align:right" placeholder="MM/YY" maxlength="5"></div>
+  <div class="fg"><label>CVV</label><input id="ccCvv" class="lat" style="text-align:right" inputmode="numeric" maxlength="4" placeholder="•••"></div></div>`;
+ else if(curMth==='instapay')box.innerHTML=`<div class="pay-info">حوّل قيمة العربون إلى:<br><b class="lat" style="color:var(--gold2)">${esc(db.settings.payData.instapay)}</b></div>`;
+ else box.innerHTML=`<div class="pay-info">حوّل إلى:<br><b style="color:var(--gold2)">${esc(db.settings.payData.bank)}</b><br>سيظهر حجزك «معلق» حتى تأكيد التحويل.</div>`;
 }
-function doPay(){
+async function doPay(){
  if(curMth==='card'){const n=$('#ccNum').value.replace(/\s/g,'');if(n.length<16||!$('#ccExp').value||$('#ccCvv').value.length<3){toast('أكمل بيانات البطاقة');return}}
  const btn=$('#doPayBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> جارِ معالجة الدفع…';
- setTimeout(()=>{
-  const st=curMth==='bank'?'pending':'confirmed';
-  const res=commitBooking({name:$('#cName').value.trim(),phone:$('#cPhone').value.replace(/[\s-]/g,''),email:$('#cMail').value.trim(),occasion:$('#cOcc').value.trim(),guests:$('#cGuests').value,notes:$('#cNotes').value.trim(),date:sel.date,period:sel.period,gov:sel.gov,city:sel.city,venue:sel.venue,price:price(),deposit:dep(),remaining:price()-dep(),pay:curMth==='bank'?'pending':'deposit',status:st});
-  btn.disabled=false;btn.textContent='ادفع الآن بأمان 🔒';
-  if(res.err){$('#payOv').classList.remove('show');toast(res.err);Object.assign(sel,{date:null,period:null});$('#st2').hidden=true;$('#pickEcho').hidden=true;renderCal();updateSummary();return}
-  $('#payOv').classList.remove('show');showConf(res.ok);
-  Object.assign(sel,{date:null,period:null,gov:'',city:'',venue:''});
-  ['st2','st3','st4','st5'].forEach(i=>$('#'+i).hidden=true);
-  ['#cName','#cPhone','#cMail','#cOcc','#cGuests','#cNotes','#venueIn'].forEach(i=>$(i).value='');
-  $('#pickEcho').hidden=true;fillGov();fillCity();renderCal();updateSummary();
- },1400);
+ await new Promise(r=>setTimeout(r,1200));
+ const st=curMth==='bank'?'pending':'confirmed';
+ const res=await commitBooking({name:$('#cName').value.trim(),phone:$('#cPhone').value.replace(/[\s-]/g,''),email:$('#cMail').value.trim(),occasion:$('#cOcc').value.trim(),guests:$('#cGuests').value,notes:$('#cNotes').value.trim(),date:sel.date,period:sel.period,gov:sel.gov,city:sel.city,venue:sel.venue,price:price(),deposit:dep(),pay:curMth==='bank'?'pending':'deposit',status:st});
+ btn.disabled=false;btn.textContent='ادفع الآن بأمان 🔒';
+ if(res.err){$('#payOv').classList.remove('show');toast(res.err);Object.assign(sel,{date:null,period:null});$('#st2').hidden=true;$('#pickEcho').hidden=true;renderCal();updateSummary();return}
+ $('#payOv').classList.remove('show');$('#confOv').dataset.last=JSON.stringify(res.ok);showConf(res.ok);
+ Object.assign(sel,{date:null,period:null,gov:'',city:'',venue:''});
+ ['st2','st3','st4','st5'].forEach(i=>$('#'+i).hidden=true);
+ ['#cName','#cPhone','#cMail','#cOcc','#cGuests','#cNotes','#venueIn'].forEach(i=>$(i).value='');
+ $('#pickEcho').hidden=true;fillGov();fillCity();renderCal();updateSummary();
 }
 function showConf(b){
  scramble($('#confId'),b.id);
@@ -743,67 +687,58 @@ function showConf(b){
 }
 function waLink(msg){return `https://wa.me/${db.settings.whatsapp}?text=${encodeURIComponent(msg)}`}
 function downloadTxt(){
- const b=db.bookings.find(x=>x.id===$('#confOv').dataset.bid);if(!b)return;
- const txt=`بطاقة حجز — ${b.id}\nالفنان: ${db.settings.artist}\nالتاريخ: ${dispDate(b.date)}\nالفترة: ${pName(b.period)}\nالموقع: ${b.gov} — ${b.city}${b.venue?' — '+b.venue:''}\nسعر الحجز: ${b.price} جنيه\nالعربون المدفوع: ${b.deposit} جنيه\nالمتبقي: ${b.remaining} جنيه\nالحالة: ${STATUS_AR[b.status]}\n\nDesigned & Developed by Qween Studio`;
+ const b=db.bookings.find(x=>x.id===$('#confOv').dataset.bid)||JSON.parse($('#confOv').dataset.last||'{}');
+ if(!b.id)return;
+ const txt=`بطاقة حجز — ${b.id}\nالفنان: ${db.settings.artist}\nالتاريخ: ${dispDate(b.date)}\nالفترة: ${pName(b.period)}\nالموقع: ${b.gov} — ${b.city}\nسعر الحجز: ${b.price} جنيه\nالعربون: ${b.deposit} جنيه\nالمتبقي: ${b.remaining} جنيه\nالحالة: ${STATUS_AR[b.status]}\n\nDesigned & Developed by Qween Studio`;
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));a.download=b.id+'.txt';a.click();
 }
-const SOC=[
- ['instagram','Instagram','<path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5zm4 5.5A3.5 3.5 0 1 0 15.5 12 3.5 3.5 0 0 0 12 8.5zM16.8 6.9a.9.9 0 1 0 .9.9.9.9 0 0 0-.9-.9z"/>'],
- ['tiktok','TikTok','<path d="M14 3v9.5a3.5 3.5 0 1 1-3.5-3.5V12a1.5 1.5 0 1 0 1.5 1.5V3h2a4.5 4.5 0 0 0 4 4v2a6.5 6.5 0 0 1-4-1.5z"/>'],
- ['facebook','Facebook','<path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3V11H9v3h2.3v7z"/>'],
- ['youtube','YouTube','<path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12z"/>'],
- ['snapchat','Snapchat','<path d="M12 3c2.8 0 4.5 2 4.5 4.7 0 .6 0 1.2-.1 1.7.3.1.8 0 1.3-.2.5-.2 1 .3.7.8-.4.8-1.6 1.3-1.9 1.4 0 .4.4 1 1.5 1.7.5.3.3 1-.3 1-.4 0-1 .1-1.4.4-.4.4-.7 1.3-2.3 1.3a3.7 3.7 0 0 1-2-.7 2.6 2.6 0 0 0-2 0 3.7 3.7 0 0 1-2 .7c-1.6 0-1.9-.9-2.3-1.3-.4-.3-1-.4-1.4-.4-.6 0-.8-.7-.3-1 1.1-.7 1.5-1.3 1.5-1.7-.3-.1-1.5-.6-1.9-1.4-.3-.5.2-1 .7-.8.5.2 1 .3 1.3.2 0-.5-.1-1.1-.1-1.7C7.5 5 9.2 3 12 3z"/>']
-];
+const SOC=[['instagram','Instagram','<path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5zm4 5.5A3.5 3.5 0 1 0 15.5 12 3.5 3.5 0 0 0 12 8.5zM16.8 6.9a.9.9 0 1 0 .9.9.9.9 0 0 0-.9-.9z"/>'],['tiktok','TikTok','<path d="M14 3v9.5a3.5 3.5 0 1 1-3.5-3.5V12a1.5 1.5 0 1 0 1.5 1.5V3h2a4.5 4.5 0 0 0 4 4v2a6.5 6.5 0 0 1-4-1.5z"/>'],['facebook','Facebook','<path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3V11H9v3h2.3v7z"/>'],['youtube','YouTube','<path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12z"/>'],['snapchat','Snapchat','<path d="M12 3c2.8 0 4.5 2 4.5 4.7 0 .6 0 1.2-.1 1.7.3.1.8 0 1.3-.2.5-.2 1 .3.7.8-.4.8-1.6 1.3-1.9 1.4 0 .4.4 1 1.5 1.7.5.3.3 1-.3 1-.4 0-1 .1-1.4.4-.4.4-.7 1.3-2.3 1.3a3.7 3.7 0 0 1-2-.7 2.6 2.6 0 0 0-2 0 3.7 3.7 0 0 1-2 .7c-1.6 0-1.9-.9-2.3-1.3-.4-.3-1-.4-1.4-.4-.6 0-.8-.7-.3-1 1.1-.7 1.5-1.3 1.5-1.7-.3-.1-1.5-.6-1.9-1.4-.3-.5.2-1 .7-.8.5.2 1 .3 1.3.2 0-.5-.1-1.1-.1-1.7C7.5 5 9.2 3 12 3z"/>']];
 function applySettings(){
  const s=db.settings;
  ['lgName','heroName','sumArtist','ftName','ftName2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=s.artist});
+ $('#lgMono').textContent=(s.artist||'م').trim().charAt(0);
  document.title=s.artist+' — احجز موعد حفلتك';
+ $('#heroImg').src=s.hero_image||FALLBACK_HERO;
  $('#socials').innerHTML=SOC.map(([k,n,p])=>`<a href="${esc(s.socials[k]||'#')}" target="_blank" rel="noopener" aria-label="${n}"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">${p}</svg></a>`).join('');
  $('#waFloat').href=waLink('مرحباً، أريد الاستفسار عن حجز حفلة');
- $('#ftWa').textContent='+'+s.whatsapp.replace(/^2/,'2');$('#ftWa').href=waLink('مرحباً');
+ $('#ftWa').textContent='+'+String(s.whatsapp).replace(/^2/,'2');$('#ftWa').href=waLink('مرحباً');
 }
-/* ============ ADMIN ============ */
+/* ===== ADMIN ===== */
 let admTab='dash',admQ='',admF='',admDay=null,aY=today.getFullYear(),aM=today.getMonth();
-function admAuthed(){return sessionStorage.getItem('qw_admin')==='1'}
 function renderAdm(){
- if(!admAuthed()){$('#admLogin').hidden=false;$('#admShell').hidden=true;return}
+ if(!isAuthed){$('#admLogin').hidden=false;$('#admShell').hidden=true;return}
  $('#admLogin').hidden=true;$('#admShell').hidden=false;
  $$('.adm-tab[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===admTab));
- ({dash:rDash,book:rBook,sched:rSched,price:rPrice,set:rSet}[admTab])();
+ ({dash:rDash,book:rBook,sched:rSched,price:rPrice,imgs:rImgs,set:rSet}[admTab])();
 }
 function rDash(){
  const A=db.bookings.filter(b=>b.status!=='cancelled');
  const k=(l,v,g)=>`<div class="kpi ${g?'g':''}"><span>${l}</span><b>${v}</b></div>`;
  const paid=A.reduce((s,b)=>s+(b.pay==='paid'?b.price:b.deposit),0);
  const rem=A.reduce((s,b)=>s+(b.pay==='paid'?0:b.remaining),0);
- const byGov={};db.bookings.filter(b=>b.status!=='cancelled').forEach(b=>byGov[b.gov]=(byGov[b.gov]||0)+1);
+ const byGov={};A.forEach(b=>byGov[b.gov]=(byGov[b.gov]||0)+1);
  const top=Object.entries(byGov).sort((a,b)=>b[1]-a[1]).slice(0,5),mx=top[0]?.[1]||1;
  $('#admMain').innerHTML=`<div class="adm-h"><h2>نظرة عامة</h2><span style="color:var(--dim);font-size:13px">${new Date().toLocaleDateString('ar-EG',{dateStyle:'full'})}</span></div>
- <div class="kpis">
-  ${k('إجمالي الحجوزات',db.bookings.length,1)}${k('مؤكدة',db.bookings.filter(b=>b.status==='confirmed').length)}
-  ${k('معلقة',db.bookings.filter(b=>b.status==='pending').length)}${k('ملغاة',db.bookings.filter(b=>b.status==='cancelled').length)}
-  ${k('إجمالي الإيرادات',paid.toLocaleString('ar-EG'),1)}${k('مبالغ مدفوعة',paid.toLocaleString('ar-EG'))}${k('مبالغ متبقية',rem.toLocaleString('ar-EG'))}
- </div>
+ <div class="kpis">${k('إجمالي الحجوزات',db.bookings.length,1)}${k('مؤكدة',db.bookings.filter(b=>b.status==='confirmed').length)}
+ ${k('معلقة',db.bookings.filter(b=>b.status==='pending').length)}${k('ملغاة',db.bookings.filter(b=>b.status==='cancelled').length)}
+ ${k('إجمالي الإيرادات',paid.toLocaleString('ar-EG'),1)}${k('مبالغ مدفوعة',paid.toLocaleString('ar-EG'))}${k('مبالغ متبقية',rem.toLocaleString('ar-EG'))}</div>
  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
-  <div class="panel"><h3>الحجوزات حسب المنطقة</h3>${top.map(([g,c])=>`<div class="bar-row"><span>${esc(g)}</span><div class="bar"><i data-w="${c/mx*100}"></i></div><span class="lat">${c}</span></div>`).join('')||'<p style="color:var(--dim)">لا بيانات</p>'}</div>
-  <div class="panel"><h3>أحدث الحجوزات</h3><div class="tbl-w"><table style="min-width:480px"><tr><th>الرقم</th><th>العميل</th><th>الموعد</th><th>الحالة</th></tr>
-   ${db.bookings.slice(0,5).map(b=>`<tr><td class="lat">${b.id}</td><td>${esc(b.name)}</td><td>${b.date.slice(5).split('-').reverse().join('/')} — ${pName(b.period)}</td><td><span class="bd ${b.status}">${STATUS_AR[b.status]}</span></td></tr>`).join('')}</table></div></div>
- </div>`;
+ <div class="panel"><h3>الحجوزات حسب المنطقة</h3>${top.map(([g,c])=>`<div class="bar-row"><span>${esc(g)}</span><div class="bar"><i data-w="${c/mx*100}"></i></div><span class="lat">${c}</span></div>`).join('')||'<p style="color:var(--dim)">لا بيانات</p>'}</div>
+ <div class="panel"><h3>أحدث الحجوزات</h3><div class="tbl-w"><table style="min-width:480px"><tr><th>الرقم</th><th>العميل</th><th>الموعد</th><th>الحالة</th></tr>
+ ${db.bookings.slice(0,5).map(b=>`<tr><td class="lat">${b.id}</td><td>${esc(b.name)}</td><td>${b.date.slice(5).split('-').reverse().join('/')} — ${pName(b.period)}</td><td><span class="bd ${b.status}">${STATUS_AR[b.status]}</span></td></tr>`).join('')}</table></div></div></div>`;
  requestAnimationFrame(()=>setTimeout(()=>$$('#admMain .bar i').forEach(i=>i.style.width=i.dataset.w+'%'),60));
 }
 function rBook(){
- let list=db.bookings.filter(b=>(!admF||b.status===admF)&&(!admQ||[b.id,b.name,b.phone,b.gov].join(' ').includes(admQ)));
+ const list=db.bookings.filter(b=>(!admF||b.status===admF)&&(!admQ||[b.id,b.name,b.phone,b.gov].join(' ').includes(admQ)));
  $('#admMain').innerHTML=`<div class="adm-h"><h2>إدارة الحجوزات</h2>
-  <div style="display:flex;gap:10px;flex-wrap:wrap"><input id="bkQ" placeholder="بحث بالاسم / الهاتف / الرقم…" value="${esc(admQ)}" style="width:230px">
-  <select id="bkF" style="width:160px"><option value="">كل الحالات</option>${Object.entries(STATUS_AR).map(([k,v])=>`<option value="${k}" ${admF===k?'selected':''}>${v}</option>`).join('')}</select></div></div>
+ <div style="display:flex;gap:10px;flex-wrap:wrap"><input id="bkQ" placeholder="بحث…" value="${esc(admQ)}" style="width:230px">
+ <select id="bkF" style="width:160px"><option value="">كل الحالات</option>${Object.entries(STATUS_AR).map(([k,v])=>`<option value="${k}" ${admF===k?'selected':''}>${v}</option>`).join('')}</select></div></div>
  <div class="panel tbl-w"><table><tr><th>Booking ID</th><th>العميل</th><th>الهاتف</th><th>التاريخ</th><th>الفترة</th><th>الموقع</th><th>السعر</th><th>العربون</th><th>المتبقي</th><th>الدفع</th><th>الحالة</th><th>إجراءات</th></tr>
  ${list.map(b=>`<tr><td class="lat">${b.id}</td><td>${esc(b.name)}</td><td class="lat">${esc(b.phone)}</td><td class="lat">${b.date}</td><td>${pName(b.period)}</td><td>${esc(b.gov)}</td><td>${b.price.toLocaleString('ar-EG')}</td><td>${b.deposit.toLocaleString('ar-EG')}</td><td>${b.remaining.toLocaleString('ar-EG')}</td><td style="font-size:12px">${PAY_AR[b.pay]}</td><td><span class="bd ${b.status}">${STATUS_AR[b.status]}</span></td>
- <td><div style="display:flex;gap:6px">
-  <button class="btn btn-ghost btn-sm" data-act="bView" data-id="${b.id}">عرض</button>
-  ${b.status==='pending'?`<button class="btn btn-sm" data-act="bConf" data-id="${b.id}">تأكيد</button>`:''}
-  ${b.status==='confirmed'?`<button class="btn btn-sm" data-act="bDone" data-id="${b.id}">إتمام</button>`:''}
-  ${['pending','confirmed'].includes(b.status)?`<button class="btn btn-ghost btn-sm" style="border-color:rgba(208,122,106,.5);color:var(--bad)" data-act="bCancel" data-id="${b.id}">إلغاء</button>`:''}
- </div></td></tr>`).join('')||'<tr><td colspan="12" style="text-align:center;color:var(--dim);padding:30px">لا توجد حجوزات مطابقة</td></tr>'}</table></div>`;
+ <td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" data-act="bView" data-id="${b.id}">عرض</button>
+ ${b.status==='pending'?`<button class="btn btn-sm" data-act="bConf" data-id="${b.id}">تأكيد</button>`:''}
+ ${b.status==='confirmed'?`<button class="btn btn-sm" data-act="bDone" data-id="${b.id}">إتمام</button>`:''}
+ ${['pending','confirmed'].includes(b.status)?`<button class="btn btn-ghost btn-sm" style="border-color:rgba(208,122,106,.5);color:var(--bad)" data-act="bCancel" data-id="${b.id}">إلغاء</button>`:''}</div></td></tr>`).join('')||'<tr><td colspan="12" style="text-align:center;color:var(--dim);padding:30px">لا توجد حجوزات</td></tr>'}</table></div>`;
  $('#bkQ').oninput=e=>{admQ=e.target.value;rBook();const el=$('#bkQ');el.focus();el.setSelectionRange(el.value.length,el.value.length)};
  $('#bkF').onchange=e=>{admF=e.target.value;rBook()};
 }
@@ -815,70 +750,81 @@ function rSched(){
  for(let d=1;d<=dim;d++){const dISO=iso(new Date(aY,aM,d)),day=db.slots[dISO],has=day&&Object.keys(day).length;
   grid+=`<button class="cal-day adm-cal-day ${has?'has':''} ${admDay===dISO?'sel':''}" data-act="admDay" data-iso="${dISO}">${d}</button>`}
  grid+='</div>';
- let insp='<p style="color:var(--dim);font-size:13.5px">اختر يومًا من التقويم لعرض فتراته وإدارتها.</p>';
+ let insp='<p style="color:var(--dim);font-size:13.5px">اختر يومًا لعرض فتراته وإدارتها.</p>';
  if(admDay){
   insp=`<h3 class="h-disp" style="font-size:20px;margin-bottom:12px">${dispDate(admDay)}</h3><div class="insp">`+
   PERIODS.map(p=>{const v=getSlot(admDay,p.k),booked=v&&v!=='closed',closed=v==='closed';
    return `<div class="insp-row"><span><b>${p.n}</b><br><small class="lat" style="color:var(--dim)">${p.t}</small></span>`+
    (booked?`<span class="bd confirmed">محجوز — <span class="lat">${v}</span></span>`:
    `<select data-act="slotSet" data-iso="${admDay}" data-p="${p.k}"><option value="open" ${!closed?'selected':''}>متاح</option><option value="closed" ${closed?'selected':''}>مغلق</option></select>`)+`</div>`}).join('')+
-  `</div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-sm" data-act="closeDay" data-iso="${admDay}">إغلاق اليوم كاملًا</button><button class="btn btn-ghost btn-sm" data-act="openDay" data-iso="${admDay}">فتح اليوم</button></div>`;
- }
- $('#admMain').innerHTML=`<div class="adm-h"><h2>إدارة المواعيد</h2><span style="color:var(--dim);font-size:13px">أي تعديل هنا ينعكس فورًا على تقويم الموقع</span></div>
+  `</div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-sm" data-act="closeDay" data-iso="${admDay}">إغلاق اليوم كاملًا</button><button class="btn btn-ghost btn-sm" data-act="openDay" data-iso="${admDay}">فتح اليوم</button></div>`;}
+ $('#admMain').innerHTML=`<div class="adm-h"><h2>إدارة المواعيد</h2><span style="color:var(--dim);font-size:13px">التعديلات تنعكس فورًا على الموقع</span></div>
  <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:20px" class="sch-grid"><div class="panel">${grid}</div><div class="panel">${insp}</div></div>
  <style>@media(max-width:900px){.sch-grid{grid-template-columns:1fr!important}}</style>`;
 }
 function rPrice(){
  $('#admMain').innerHTML=`<div class="adm-h"><h2>إدارة الأسعار</h2><button class="btn btn-sm" data-act="rAdd">+ إضافة منطقة</button></div>
- <div class="panel tbl-w"><table style="min-width:560px"><tr><th>المحافظة / المنطقة</th><th>المدن</th><th>السعر (جنيه)</th><th>ملاحظة</th><th></th></tr>
+ <div class="panel tbl-w"><table style="min-width:560px"><tr><th>المحافظة</th><th>المدن</th><th>السعر</th><th>ملاحظة</th><th></th></tr>
  ${db.regions.map((r,i)=>`<tr><td><input value="${esc(r.name)}" data-rr="${i}" data-f="name"></td><td><input value="${esc(r.cities.join('، '))}" data-rr="${i}" data-f="cities" style="min-width:200px"></td><td><input type="number" value="${r.price}" data-rr="${i}" data-f="price" class="lat" style="width:120px;text-align:right"></td><td><input value="${esc(r.note)}" data-rr="${i}" data-f="note"></td><td><button class="btn btn-ghost btn-sm" style="border-color:rgba(208,122,106,.5);color:var(--bad)" data-act="rDel" data-i="${i}">حذف</button></td></tr>`).join('')}</table></div>
- <div style="display:flex;gap:10px"><button class="btn" data-act="rSave">حفظ التعديلات</button></div>
- <p class="adm-note">الأسعار هنا تنعكس مباشرة على صفحة الحجز بدون تعديل أي كود.</p>`;
+ <button class="btn" data-act="rSave">حفظ التعديلات</button>
+ <p class="adm-note">الأسعار تنعكس مباشرة على صفحة الحجز.</p>`;
+}
+function rImgs(){
+ $('#admMain').innerHTML=`<div class="adm-h"><h2>إدارة الصور</h2><span style="color:var(--dim);font-size:13px">تُرفع الصور إلى Supabase Storage وتظهر فورًا على الموقع</span></div>
+ <div class="panel">
+  <h3>صورة الخلفية الرئيسية (Hero)</h3>
+  <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+   <img src="${esc(db.settings.hero_image||FALLBACK_HERO)}" alt="الخلفية الحالية" style="width:min(260px,100%);aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line)">
+   <div style="flex:1;min-width:250px">
+    <input type="file" id="heroFile" accept="image/*" hidden>
+    <button class="btn" data-act="upHero">⬆ رفع صورة جديدة للخلفية</button>
+    <p class="adm-note" style="border:none;padding-top:10px">يُفضَّل مقاس 1920×1200 أو أكبر، صورة عالية الجودة للفنان. تظهر في أعلى الصفحة الرئيسية.</p>
+   </div></div></div>
+ <div class="panel"><h3>صور المعرض</h3>
+  <div class="img-grid">${db.gallery.map((g,i)=>`<div class="img-card">
+   <img src="${esc(g.url)}" alt="">
+   <input value="${esc(g.caption||'')}" data-gc="${g.id}" placeholder="وصف الصورة…">
+   <div class="acts"><button class="btn btn-sm" data-act="gCapSave" data-id="${g.id}">حفظ الوصف</button>
+   <button class="btn btn-ghost btn-sm" style="color:var(--bad);border-color:rgba(208,122,106,.5)" data-act="gDel" data-id="${g.id}">حذف</button></div></div>`).join('')||'<p style="color:var(--dim)">لا توجد صور بعد.</p>'}</div>
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px;border-top:1px dashed var(--line);padding-top:16px">
+   <input type="file" id="galFile" accept="image/*" style="max-width:270px">
+   <input id="galCap" placeholder="وصف الصورة (مثال: حفل زفاف — القاهرة)" style="max-width:300px">
+   <button class="btn" data-act="gAdd">⬆ إضافة للمعرض</button>
+  </div></div>`;
+ $('#heroFile').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  toast('جارِ رفع الصورة…');
+  try{const url=await uploadImg(f);
+   await sb.from('settings').update({hero_image:url}).eq('id',1);
+   await hydrate();applySettings();rImgs();toast('تم تحديث صورة الخلفية ✓');}
+  catch(err){toast('فشل الرفع: '+err.message)}};
 }
 function rSet(){
  const s=db.settings;
  $('#admMain').innerHTML=`<div class="adm-h"><h2>الإعدادات</h2></div>
  <div class="panel" style="max-width:720px">
-  <div class="frow">
-   <div class="fg"><label>اسم الفنان</label><input id="sArtist" value="${esc(s.artist)}"></div>
-   <div class="fg"><label>رقم واتساب (بصيغة دولية بدون +)</label><input id="sWa" class="lat" style="text-align:right" value="${esc(s.whatsapp)}"></div>
-  </div>
-  <div class="fg"><label>قيمة العربون (جنيه)</label><input id="sDep" type="number" class="lat" style="text-align:right;max-width:200px" value="${s.deposit}"></div>
-  <h3 style="margin-top:20px">وسائل الدفع</h3>
-  ${[['card','بطاقة بنكية'],['instapay','InstaPay'],['bank','تحويل بنكي']].map(([k,t])=>`<label style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:14px"><input type="checkbox" data-mth="${k}" ${s.methods[k]?'checked':''} style="width:auto"> ${t}</label>`).join('')}
-  <div class="frow" style="margin-top:14px">
-   <div class="fg"><label>عنوان InstaPay</label><input id="sInsta" class="lat" style="text-align:right" value="${esc(s.payData.instapay)}"></div>
-   <div class="fg"><label>بيانات الحساب البنكي</label><input id="sBank" value="${esc(s.payData.bank)}"></div>
-  </div>
-  <h3 style="margin-top:20px">روابط السوشيال ميديا</h3>
-  ${SOC.map(([k,n])=>`<div class="fg"><label>${n}</label><input data-soc="${k}" class="lat" style="text-align:right" value="${esc(s.socials[k])}"></div>`).join('')}
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"><button class="btn" data-act="sSave">حفظ الإعدادات</button><button class="btn btn-ghost" data-act="resetDb">إعادة تعيين البيانات التجريبية</button></div>
-  <p class="adm-note">في الإنتاج: المصادقة عبر الخادم، بيانات الدفع داخل بوابة معتمدة فقط، وقواعد PostgreSQL محمية بـ Row Level Security.</p>
- </div>`;
+ <div class="frow"><div class="fg"><label>اسم الفنان</label><input id="sArtist" value="${esc(s.artist)}"></div>
+ <div class="fg"><label>رقم واتساب (دولي بدون +)</label><input id="sWa" class="lat" style="text-align:right" value="${esc(s.whatsapp)}"></div></div>
+ <div class="fg"><label>قيمة العربون (جنيه)</label><input id="sDep" type="number" class="lat" style="text-align:right;max-width:200px" value="${s.deposit}"></div>
+ <h3 style="margin-top:20px">وسائل الدفع</h3>
+ ${[['card','بطاقة بنكية'],['instapay','InstaPay'],['bank','تحويل بنكي']].map(([k,t])=>`<label style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:14px"><input type="checkbox" data-mth="${k}" ${s.methods[k]?'checked':''} style="width:auto"> ${t}</label>`).join('')}
+ <div class="frow" style="margin-top:14px"><div class="fg"><label>عنوان InstaPay</label><input id="sInsta" class="lat" style="text-align:right" value="${esc(s.payData.instapay)}"></div>
+ <div class="fg"><label>بيانات الحساب البنكي</label><input id="sBank" value="${esc(s.payData.bank)}"></div></div>
+ <h3 style="margin-top:20px">روابط السوشيال ميديا</h3>
+ ${SOC.map(([k,n])=>`<div class="fg"><label>${n}</label><input data-soc="${k}" class="lat" style="text-align:right" value="${esc(s.socials[k])}"></div>`).join('')}
+ <button class="btn" data-act="sSave" style="margin-top:10px">حفظ الإعدادات</button>
+ <p class="adm-note">كل البيانات محفوظة في Supabase ومحمية بـ Row Level Security.</p></div>`;
 }
 function openHelp(){
  $('#modalBody').innerHTML=`<h3 class="h-disp" style="font-size:24px">كيف تستخدم المنصة؟</h3>
- <div class="guide">
-  <div class="guide-card"><h4>🎤 اليوزر العادي (العميل)</h4>
-   <p style="color:var(--mut);font-size:13px">لا يحتاج إنشاء حساب — الحجز مباشر من الصفحة الرئيسية:</p>
-   <ol>
-    <li>اضغط <b style="color:var(--gold2)">«احجز حفلتك»</b></li>
-    <li>اختر <b>التاريخ</b> من التقويم (اليوم الحالي يظهر بإطار ذهبي)</li>
-    <li>اختر <b>الفترة</b>: صباحاً / عصراً / مساءً</li>
-    <li>اختر <b>المحافظة والمنطقة</b> — يظهر السعر فورًا</li>
-    <li>أدخل بياناتك → ادفع العربون → استلم <b>رقم الحجز</b></li>
-   </ol></div>
-  <div class="guide-card"><h4>🛡 الإدارة</h4>
-   <ol>
-    <li>اضغط أيقونة <b>الدرع</b> أعلى الصفحة أو «دخول الإدارة» أسفلها</li>
-    <li>أدخل بيانات الدخول:</li>
-   </ol>
-   <div class="cred">admin / qween2026</div>
-   <p style="color:var(--mut);font-size:12.5px;margin-top:10px">من الداخل تدير: الحجوزات، المواعيد (فتح/إغلاق الأيام والفترات)، الأسعار، والسوشيال ميديا والواتساب.</p></div>
- </div>`;
+ <div class="guide"><div class="guide-card"><h4>🎤 العميل</h4><p style="color:var(--mut);font-size:13px">بدون حساب — الحجز مباشر:</p>
+ <ol><li>«احجز حفلتك»</li><li>اختر التاريخ</li><li>اختر الفترة</li><li>اختر المنطقة → يظهر السعر</li><li>بياناتك → العربون → رقم الحجز</li></ol></div>
+ <div class="guide-card"><h4>🛡 الإدارة</h4><ol><li>أيقونة الدرع أعلى الصفحة</li><li>سجّل ببريد وكلمة مرور حساب الأدمن (المُنشأ في Supabase Auth)</li></ol>
+ <p style="color:var(--mut);font-size:12.5px;margin-top:10px">من الداخل تدير الحجوزات والمواعيد والأسعار والصور والإعدادات.</p></div></div>`;
  $('#modal').classList.add('show');
 }
-document.addEventListener('click',e=>{
+/* ===== الأحداث ===== */
+document.addEventListener('click',async e=>{
  const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
  if(a==='pickDay'){sel.date=t.dataset.iso;sel.period=null;renderCal();renderSlots();$('#st3').hidden=false;updateSummary();
   const echo=$('#pickEcho');echo.hidden=false;echo.querySelector('b').textContent=dispDate(sel.date);
@@ -889,29 +835,68 @@ document.addEventListener('click',e=>{
  if(a==='amPrev'){aM--;if(aM<0){aM=11;aY--}rSched()}
  if(a==='amNext'){aM++;if(aM>11){aM=0;aY++}rSched()}
  if(a==='admDay'){admDay=t.dataset.iso;rSched()}
- if(a==='closeDay'){(db.slots[admDay]??={});PERIODS.forEach(p=>{const v=getSlot(admDay,p.k);if(!v||v==='closed')db.slots[admDay][p.k]='closed'});saveDB();rSched();toast('تم إغلاق اليوم')}
- if(a==='openDay'){PERIODS.forEach(p=>{if(db.slots[admDay]?.[p.k]==='closed')delete db.slots[admDay][p.k]});if(db.slots[admDay]&&!Object.keys(db.slots[admDay]).length)delete db.slots[admDay];saveDB();rSched();toast('تم فتح اليوم')}
- if(a==='rAdd'){db.regions.push({id:'r'+Date.now(),name:'منطقة جديدة',price:15000,cities:['—'],note:''});saveDB();rPrice()}
- if(a==='rDel'){if(confirm('حذف هذه المنطقة؟')){db.regions.splice(+t.dataset.i,1);saveDB();rPrice();fillGov()}}
- if(a==='rSave'){$$('[data-rr]').forEach(inp=>{const r=db.regions[+inp.dataset.rr];if(inp.dataset.f==='cities')r.cities=inp.value.split(/[،,]/).map(s=>s.trim()).filter(Boolean);else if(inp.dataset.f==='price')r.price=+inp.value||0;else r[inp.dataset.f]=inp.value.trim()});saveDB();fillGov();updateSummary();toast('تم حفظ الأسعار ✓')}
- if(a==='sSave'){const s=db.settings;s.artist=$('#sArtist').value.trim()||s.artist;s.whatsapp=$('#sWa').value.replace(/\D/g,'');s.deposit=+$('#sDep').value||0;s.payData.instapay=$('#sInsta').value;s.payData.bank=$('#sBank').value;$$('[data-mth]').forEach(c=>s.methods[c.dataset.mth]=c.checked);$$('[data-soc]').forEach(i=>s.socials[i.dataset.soc]=i.value.trim());saveDB();applySettings();toast('تم حفظ الإعدادات ✓')}
- if(a==='resetDb'){if(confirm('سيتم مسح كل البيانات وإرجاع التجريبية. متأكد؟')){localStorage.removeItem(KEY);location.reload()}}
+ if(a==='closeDay'){const rows=PERIODS.filter(p=>!getSlot(admDay,p.k)).map(p=>({date:admDay,period:p.k}));
+  if(rows.length)await sb.from('closures').upsert(rows);await hydrate();renderCal();rSched();toast('تم إغلاق اليوم')}
+ if(a==='openDay'){await sb.from('closures').delete().eq('date',admDay);await hydrate();renderCal();rSched();toast('تم فتح اليوم')}
+ if(a==='rAdd'){db.regions.push({id:'r'+Date.now(),name:'منطقة جديدة',price:15000,cities:['—'],note:''});rPrice()}
+ if(a==='rDel'){const r=db.regions[+t.dataset.i];
+  if(confirm('حذف هذه المنطقة؟')){
+   if(persistedRegions.has(r.id)){await sb.from('regions').delete().eq('id',r.id);await hydrate()}
+   else db.regions.splice(+t.dataset.i,1);
+   rPrice();fillGov()}}
+ if(a==='rSave'){
+  $$('[data-rr]').forEach(inp=>{const r=db.regions[+inp.dataset.rr];
+   if(inp.dataset.f==='cities')r.cities=inp.value.split(/[،,]/).map(s=>s.trim()).filter(Boolean);
+   else if(inp.dataset.f==='price')r.price=+inp.value||0;else r[inp.dataset.f]=inp.value.trim()});
+  const rows=db.regions.map((r,i)=>({id:r.id,name:r.name,price:r.price,cities:r.cities,note:r.note,sort:i+1}));
+  const {error}=await sb.from('regions').upsert(rows);
+  if(error){toast('خطأ في الحفظ: '+error.message);return}
+  await hydrate();fillGov();updateSummary();toast('تم حفظ الأسعار ✓')}
+ if(a==='upHero'){$('#heroFile').click()}
+ if(a==='gAdd'){
+  const f=$('#galFile').files[0],cap=$('#galCap').value.trim();
+  if(!f){toast('اختر صورة أولاً');return}
+  toast('جارِ رفع الصورة…');
+  try{const url=await uploadImg(f);
+   await sb.from('gallery').insert({id:'g'+Date.now(),url,caption:cap,sort:db.gallery.length+1});
+   await hydrate();renderGallery();rImgs();toast('تمت إضافة الصورة للمعرض ✓');}
+  catch(err){toast('فشل الرفع: '+err.message)}}
+ if(a==='gCapSave'){const inp=$(`[data-gc="${t.dataset.id}"]`);
+  await sb.from('gallery').update({caption:inp.value.trim()}).eq('id',t.dataset.id);
+  await hydrate();renderGallery();toast('تم حفظ الوصف ✓')}
+ if(a==='gDel'){if(confirm('حذف هذه الصورة من المعرض؟')){
+  const g=db.gallery.find(x=>x.id===t.dataset.id);
+  await sb.from('gallery').delete().eq('id',t.dataset.id);
+  if(g){const path=decodeURIComponent(g.url.split('/images/')[1]||'');if(path)sb.storage.from('images').remove([path])}
+  await hydrate();renderGallery();rImgs();toast('تم الحذف')}}
+ if(a==='sSave'){
+  const socials={},methods={};
+  $$('[data-soc]').forEach(i=>socials[i.dataset.soc]=i.value.trim());
+  $$('[data-mth]').forEach(c=>methods[c.dataset.mth]=c.checked);
+  const {error}=await sb.from('settings').update({artist:$('#sArtist').value.trim(),whatsapp:$('#sWa').value.replace(/\D/g,''),deposit:+$('#sDep').value||0,socials,methods,pay_data:{instapay:$('#sInsta').value,bank:$('#sBank').value}}).eq('id',1);
+  if(error){toast('خطأ: '+error.message);return}
+  await hydrate();applySettings();toast('تم حفظ الإعدادات ✓')}
  if(a==='bView'){const b=db.bookings.find(x=>x.id===t.dataset.id);$('#modalBody').innerHTML=`<h3 class="h-disp" style="font-size:22px;margin-bottom:14px">تفاصيل الحجز <span class="lat" style="color:var(--gold2)">${b.id}</span></h3>
   ${[['العميل',b.name],['الهاتف',b.phone],['البريد',b.email||'—'],['المناسبة',b.occasion],['الحضور',b.guests||'—'],['التاريخ',dispDate(b.date)],['الفترة',pName(b.period)],['الموقع',`${b.gov} — ${b.city||'—'}${b.venue?' — '+b.venue:''}`],['السعر',fmtP(b.price)],['العربون',fmtP(b.deposit)],['المتبقي',fmtP(b.remaining)],['الدفع',PAY_AR[b.pay]],['الحالة',STATUS_AR[b.status]],['ملاحظات',b.notes||'—']].map(([k,v])=>`<div class="sum-row"><span>${k}</span><b style="white-space:normal">${esc(v)}</b></div>`).join('')}`;$('#modal').classList.add('show')}
- if(a==='bConf'){const b=db.bookings.find(x=>x.id===t.dataset.id);b.status='confirmed';if(b.pay==='pending')b.pay='deposit';saveDB();rBook();toast('تم تأكيد الحجز ✓')}
- if(a==='bDone'){const b=db.bookings.find(x=>x.id===t.dataset.id);b.status='completed';b.pay='paid';b.remaining=0;saveDB();rBook();toast('تم إتمام الحجز ✓')}
- if(a==='bCancel'){if(confirm('إلغاء الحجز؟ سيتم تحرير الموعد فورًا.')){const b=db.bookings.find(x=>x.id===t.dataset.id);b.status='cancelled';freeSlot(b);rBook();toast('تم إلغاء الحجز وتحرير الموعد')}}
+ if(a==='bConf'){await sb.from('bookings').update({status:'confirmed'}).eq('id',t.dataset.id);await hydrate();rBook();toast('تم تأكيد الحجز ✓')}
+ if(a==='bDone'){await sb.from('bookings').update({status:'completed',pay_status:'paid',remaining:0}).eq('id',t.dataset.id);await hydrate();rBook();toast('تم إتمام الحجز ✓')}
+ if(a==='bCancel'){if(confirm('إلغاء الحجز؟ سيتم تحرير الموعد فورًا.')){
+  await sb.from('bookings').update({status:'cancelled'}).eq('id',t.dataset.id);
+  await hydrate();rBook();toast('تم الإلغاء وتحرير الموعد')}}
  if(a==='help')openHelp();
  if(a==='closePay')$('#payOv').classList.remove('show');
  if(a==='closeConf')$('#confOv').classList.remove('show');
  if(a==='closeModal')$('#modal').classList.remove('show');
  if(a==='download')downloadTxt();
 });
-document.addEventListener('change',e=>{
+document.addEventListener('change',async e=>{
  if(e.target.id==='govSel'){sel.gov=e.target.value;sel.city='';fillCity();updateSummary();if(sel.gov){$('#st4').hidden=false;renderReview()}}
  if(e.target.id==='citySel'){sel.city=e.target.value;updateSummary()}
  if(e.target.name==='mth'){curMth=e.target.value;$$('.mth').forEach(m=>m.classList.toggle('on',m.dataset.m===curMth));renderMthInfo()}
- if(e.target.dataset.act==='slotSet'){const{iso:dISO,p}=e.target.dataset;(db.slots[dISO]??={});if(e.target.value==='closed')db.slots[dISO][p]='closed';else delete db.slots[dISO][p];if(!Object.keys(db.slots[dISO]).length)delete db.slots[dISO];saveDB();renderCal();toast('تم تحديث الموعد — انعكس على الموقع فورًا')}
+ if(e.target.dataset.act==='slotSet'){const{iso:dISO,p}=e.target.dataset;
+  if(e.target.value==='closed')await sb.from('closures').upsert({date:dISO,period:p});
+  else await sb.from('closures').delete().eq('date',dISO).eq('period',p);
+  await hydrate();renderCal();rSched();toast('تم التحديث — انعكس على الموقع فورًا')}
 });
 document.addEventListener('input',e=>{
  if(e.target.id==='ccNum'){let v=e.target.value.replace(/\D/g,'').slice(0,16);e.target.value=v.replace(/(.{4})/g,'$1 ').trim()}
@@ -921,10 +906,14 @@ document.addEventListener('input',e=>{
 });
 $('#payBtn').onclick=openPay;
 $('#doPayBtn').onclick=doPay;
-$('#loginForm').onsubmit=e=>{e.preventDefault();
- if($('#adU').value==='admin'&&$('#adP').value==='qween2026'){sessionStorage.setItem('qw_admin','1');renderAdm();toast('مرحباً بك في لوحة التحكم')}
- else toast('بيانات دخول غير صحيحة')};
-$('#logoutBtn').onclick=()=>{sessionStorage.removeItem('qw_admin');location.hash=''};
+$('#loginForm').onsubmit=async e=>{e.preventDefault();
+ const btn=e.target.querySelector('.btn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
+ const {error}=await sb.auth.signInWithPassword({email:$('#adU').value.trim(),password:$('#adP').value});
+ btn.disabled=false;btn.textContent='دخول';
+ if(error){toast('بيانات دخول غير صحيحة');return}
+ await hydrate();renderAdm();toast('مرحباً بك في لوحة التحكم')};
+$('#logoutBtn').onclick=async()=>{await sb.auth.signOut();isAuthed=false;db.bookings=[];renderAdm()};
+sb.auth.onAuthStateChange(ev=>{if(ev==='SIGNED_OUT'&&!$('#adminView').hidden)renderAdm()});
 $$('.adm-tab[data-tab]').forEach(b=>b.onclick=()=>{admTab=b.dataset.tab;renderAdm()});
 $$('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show')}));
 addEventListener('scroll',()=>$('#hdr').classList.toggle('sc',scrollY>40),{passive:true});
@@ -933,14 +922,16 @@ $$('#mainNav a').forEach(a=>a.onclick=()=>document.body.classList.remove('nav-op
 $$('.qa button').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));
 function route(){const adm=location.hash==='#admin';$('#adminView').hidden=!adm;$('#publicView').hidden=adm;$('#hdr').style.display=adm?'none':'';$('#waFloat').style.display=adm?'none':'';document.querySelector('.help-fab').style.display=adm?'none':'';if(adm)renderAdm()}
 addEventListener('hashchange',route);
-addEventListener('storage',()=>{const f=JSON.parse(localStorage.getItem(KEY)||'null');if(f){db=f;renderCal();if(sel.date)renderSlots();fillGov();updateSummary();if(!$('#adminView').hidden&&admAuthed())renderAdm()}});
+setInterval(async()=>{const ae=document.activeElement;
+ if(ae&&['INPUT','SELECT','TEXTAREA'].includes(ae.tagName))return;
+ try{await hydrate();applySettings();renderGallery();
+  if(!$('#adminView').hidden){renderAdm()}else{renderCal();if(sel.date)renderSlots();fillGov();updateSummary()}}catch(_){}},30000);
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.15});
 $$('[data-rev]').forEach(el=>io.observe(el));
-const cio=new IntersectionObserver(es=>es.forEach(x=>{if(!x.isIntersecting)return;cio.unobserve(x.target);const el=x.target,to=+el.dataset.count;if(RM){el.textContent=to+'+';return}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1300);el.textContent=Math.round(to*(1-Math.pow(1-k,3)))+'+';if(k<1)requestAnimationFrame(f)})(t0)}),{threshold:.5});
+const cio=new IntersectionObserver(es=>es.forEach(x=>{if(!x.isIntersecting)return;cio.unobserve(x.target);const el=x.target,to=+el.dataset.count;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1300);el.textContent=Math.round(to*(1-Math.pow(1-k,3)))+'+';if(k<1)requestAnimationFrame(f)})(t0)}),{threshold:.5});
 $$('[data-count]').forEach(el=>cio.observe(el));
-const tkItems=['حفلات زفاف','خطوبة','تخرج','أعياد ميلاد','مناسبات خاصة','حفلات شركات'];
-$('#tk').innerHTML=(`<span>${tkItems.map(i=>`${i} <b>✦</b>`).join('')}</span>`).repeat(6);
-applySettings();renderTodayBar();fillGov();fillCity();renderCal();updateSummary();route();
+$('#tk').innerHTML=(`<span>${['حفلات زفاف','خطوبة','تخرج','أعياد ميلاد','مناسبات خاصة','حفلات شركات'].map(i=>`${i} <b>✦</b>`).join('')}</span>`).repeat(6);
+(async()=>{await hydrate();applySettings();renderTodayBar();renderGallery();fillGov();fillCity();renderCal();updateSummary();route()})();
 </script>
 </body>
 </html>
