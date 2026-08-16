@@ -13,8 +13,8 @@
 <style>
 :root{--bg:#0C0A07;--bg2:#13100B;--panel:#171310;--panel2:#1D1812;--ink:#F3EDE2;--mut:#A2988A;--dim:#6E6558;--gold:#C9A45C;--gold2:#EAD29A;--goldD:#8A6A33;--line:rgba(201,164,92,.22);--line2:rgba(201,164,92,.4);--bad:#D07A6A;--ok:#8FBF7F;--warn:#D8B45A;--disp:'Amiri',serif;--body:'Almarai',sans-serif;--lat:'Space Grotesk',monospace;--r:10px;--sh:0 24px 60px rgba(0,0,0,.5)}
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;overflow-x:hidden}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100vw}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;overflow-x:hidden;max-width:100vw;position:relative}
 [hidden]{display:none!important}img{display:block;max-width:100%}
 button{font-family:inherit;cursor:pointer;color:inherit;background:none;border:none}
 input,select,textarea{font-family:inherit;font-size:15px;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;width:100%;outline:none;transition:border-color .25s,box-shadow .25s}
@@ -159,7 +159,7 @@ section{padding:96px 0}@media(max-width:700px){section{padding:64px 0}}
 .sum-row .ph{color:var(--dim);font-weight:400}
 .sum-tot{margin-top:14px;padding-top:14px;border-top:1px solid var(--line2)}
 .sum-tot .sum-row b{color:var(--gold2);font-family:var(--lat);font-size:18px}
-.gal{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px}
+.gal{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;max-width:100%}
 .gal figure{flex:0 0 min(300px,75vw);scroll-snap-align:start;position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--line)}
 .gal img{aspect-ratio:4/5;width:100%;object-fit:cover;transition:transform 1.2s;filter:saturate(.85)}
 .gal figure:hover img{transform:scale(1.08)}
@@ -266,6 +266,12 @@ tr:hover td{background:rgba(201,164,92,.04)}
 .img-card input{border:none;border-radius:0;border-bottom:1px solid var(--line);background:transparent}
 .img-card .acts{padding:10px;display:flex;gap:8px}
 #pdfTemplate{position:absolute;left:-9999px;top:0;width:794px;background:#0C0A07;color:#F3EDE2;font-family:'Almarai',sans-serif;direction:rtl;padding:0}
+@media(max-width:860px){
+  html,body{overflow-x:hidden!important;max-width:100vw!important}
+  .about-img::before{inset:0}
+  .hero-frame{inset:10px}
+  .wrap{width:100%;padding-inline:16px}
+}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
