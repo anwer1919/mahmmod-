@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Almarai:wght@300;400;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/2.0.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 :root{--bg:#0C0A07;--bg2:#13100B;--panel:#171310;--panel2:#1D1812;--ink:#F3EDE2;--mut:#A2988A;--dim:#6E6558;--gold:#C9A45C;--gold2:#EAD29A;--goldD:#8A6A33;--line:rgba(201,164,92,.22);--line2:rgba(201,164,92,.4);--bad:#D07A6A;--ok:#8FBF7F;--warn:#D8B45A;--disp:'Amiri',serif;--body:'Almarai',sans-serif;--lat:'Space Grotesk',monospace;--r:10px;--sh:0 24px 60px rgba(0,0,0,.5)}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -76,7 +76,9 @@ nav.main a:hover{color:var(--gold2)}nav.main a:hover::after{width:100%}
 @keyframes tk{to{transform:translateX(50%)}}
 section{padding:96px 0}@media(max-width:700px){section{padding:64px 0}}
 .about{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
-.about-img{position:relative}.about-img img{border-radius:var(--r);filter:saturate(.9)}
+.about-img{position:relative;aspect-ratio:860/1080;border-radius:var(--r);overflow:visible}
+.about-img .about-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--r);filter:saturate(.9);opacity:0;transition:opacity 1.5s ease-in-out}
+.about-img .about-slide.active{opacity:1}
 .about-img::before{content:"";position:absolute;inset:-16px 16px 16px -16px;border:1px solid var(--line2);border-radius:var(--r);z-index:-1}
 .about p{color:var(--mut);margin:16px 0 22px}
 .inc{list-style:none;display:grid;gap:10px}
@@ -180,7 +182,6 @@ footer{border-top:1px solid var(--line);background:var(--bg2);padding:70px 0 0}
 .socials a:hover{background:var(--gold);color:#241A08;transform:translateY(-4px)}
 .ft-bar{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--dim);align-items:center}
 .ft-bar .qs{color:var(--mut)}.ft-bar .qs b{font-family:var(--disp);color:var(--gold2);font-weight:700}
-/* زر واتساب المطور المخفي */
 .dev-wa{display:inline-flex;align-items:center;gap:6px;color:var(--dim);text-decoration:none;font-size:12px;padding:4px 10px;border-radius:100px;border:1px solid transparent;transition:.3s;opacity:.7}
 .dev-wa:hover{opacity:1;border-color:rgba(201,164,92,.2);color:var(--gold2);background:rgba(201,164,92,.04)}
 .dev-wa svg{width:13px;height:13px;color:#25D366}
@@ -294,7 +295,10 @@ tr:hover td{background:rgba(201,164,92,.04)}
   <div class="ticker" aria-hidden="true"><div class="tk" id="tk"></div></div>
   <section id="about"><div class="wrap">
     <div class="about">
-      <div class="about-img" data-rev><img src="https://picsum.photos/seed/mahmoud-portrait/860/1080" alt="صورة الفنان" loading="lazy" width="860" height="1080"></div>
+      <div class="about-img" data-rev>
+        <img id="aboutImg1" class="about-slide active" src="https://picsum.photos/seed/mahmoud-portrait/860/1080" alt="صورة الفنان">
+        <img id="aboutImg2" class="about-slide" src="" alt="">
+      </div>
       <div data-rev>
         <p class="kick">من هو</p>
         <h2 class="sec-title" style="margin:10px 0 4px">صوتٌ يصنع الذاكرة</h2>
@@ -360,16 +364,17 @@ tr:hover td{background:rgba(201,164,92,.04)}
           <h3>٤ — بيانات العميل</h3><p class="hint">لن يكتمل الحجز بدون البيانات الأساسية.</p>
           <div class="frow">
             <div class="fg"><label>الاسم الكامل <b>*</b></label><input id="cName" autocomplete="name"><p class="err-msg">أدخل الاسم الكامل (٣ أحرف على الأقل)</p></div>
-            <div class="fg"><label>رقم الهاتف <b>*</b></label><input id="cPhone" inputmode="tel" placeholder="01xxxxxxxxx" class="lat" style="text-align:right"><p class="err-msg">أدخل رقم موبايل مصري صحيح</p></div>
+            <div class="fg"><label>رقم الهاتف <b>*</b></label><input id="cPhone" inputmode="tel" placeholder="01xxxxxxxxx" class="lat" style="text-align:right"><p class="err-msg">أدخل رقم موبايل صحيح</p></div>
           </div>
           <div class="frow">
+            <div class="fg"><label>رقم واتساب</label><input id="cWa" inputmode="tel" placeholder="للتواصل معك عبر واتساب" class="lat" style="text-align:right"><p class="err-msg">أدخل رقم واتساب صحيح</p></div>
             <div class="fg"><label>البريد الإلكتروني</label><input id="cMail" type="email" dir="ltr" style="text-align:right"><p class="err-msg">بريد إلكتروني غير صحيح</p></div>
-            <div class="fg"><label>اسم المناسبة <b>*</b></label><input id="cOcc" placeholder="زفاف، خطوبة، تخرج…"><p class="err-msg">أدخل اسم المناسبة</p></div>
           </div>
           <div class="frow">
+            <div class="fg"><label>اسم المناسبة <b>*</b></label><input id="cOcc" placeholder="زفاف، خطوبة، تخرج…"><p class="err-msg">أدخل اسم المناسبة</p></div>
             <div class="fg"><label>عدد الحضور (اختياري)</label><input id="cGuests" type="number" min="1" placeholder="≈ 200"></div>
-            <div class="fg"><label>ملاحظات إضافية</label><input id="cNotes" placeholder="أي تفاصيل تهمنا معرفتها"></div>
           </div>
+          <div class="fg"><label>ملاحظات إضافية</label><input id="cNotes" placeholder="أي تفاصيل تهمنا معرفتها"></div>
         </div>
         <div class="step" id="st5" hidden>
           <h3>٥ — مراجعة وإرسال</h3><p class="hint">بعد دفع العربون يُرسل طلبك للإدارة وتُبلغ فور تأكيده.</p>
@@ -420,12 +425,10 @@ tr:hover td{background:rgba(201,164,92,.04)}
     </div>
     <div class="ft-bar">
       <span>© <span class="lat">2026</span> anwerahmed — جميع الحقوق محفوظة</span>
-      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-        <a class="dev-wa" href="https://wa.me/249998989999?text=مرحباً%20أستاذ%20أنور%2C%20لدي%20استفسار%20بخصوص%20موقع%20محمود%20نور%20الدين" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 .9-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .7.5.2.6.8 2 .9 2.1.1.2.1.4 0 .6l-.4.6c-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.3.2.5.1.7-.1l1-1.2c.2-.3.5-.2.8-.1l2.1 1c.3.2.5.3.6.4.1.2.1.8-.5 1.4z"/></svg>
-          تواصل مع المطور
-        </a>
-      </div>
+      <a class="dev-wa" href="https://wa.me/249998989999?text=مرحباً%20أستاذ%20أنور%2C%20لدي%20استفسار%20بخصوص%20موقع%20محمود%20نور%20الدين" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 .9-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .7.5.2.6.8 2 .9 2.1.1.2.1.4 0 .6l-.4.6c-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.3.2.5.1.7-.1l1-1.2c.2-.3.5-.2.8-.1l2.1 1c.3.2.5.3.6.4.1.2.1.8-.5 1.4z"/></svg>
+        تواصل مع المطور
+      </a>
     </div>
   </div></footer>
 </main>
@@ -488,8 +491,8 @@ tr:hover td{background:rgba(201,164,92,.04)}
 <div id="toast" role="status"></div>
 
 <div id="pdfTemplate">
-  <div id="pdfDoc" style="padding:50px;background:linear-gradient(160deg,#0C0A07,#13100B);color:#F3EDE2;min-height:1100px">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid rgba(201,164,92,.4);padding-bottom:24px;margin-bottom:30px">
+  <div id="pdfDoc" style="padding:50px;background:#0C0A07;color:#F3EDE2;min-height:1100px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #6b5530;padding-bottom:24px;margin-bottom:30px">
       <div>
         <div style="font-family:'Amiri',serif;font-size:42px;font-weight:700;color:#EAD29A" id="pdfArtist">محمود نور الدين</div>
         <div style="color:#A2988A;font-size:13px;margin-top:4px">الحجوزات الرسمية</div>
@@ -500,11 +503,11 @@ tr:hover td{background:rgba(201,164,92,.04)}
       </div>
     </div>
     <div style="text-align:center;margin:30px 0">
-      <div style="color:#A2988A;font-size:12px;letter-spacing:3px">تفاصيل الحجز</div>
+      <div style="color:#A2988A;font-size:12px">تفاصيل الحجز</div>
       <div style="width:40px;height:1px;background:#C9A45C;margin:10px auto"></div>
     </div>
     <div id="pdfRows"></div>
-    <div style="margin-top:30px;padding:20px;border:1px dashed rgba(201,164,92,.4);border-radius:10px;background:rgba(201,164,92,.04)">
+    <div style="margin-top:30px;padding:20px;border:1px dashed #6b5530;border-radius:10px;background:#13100B">
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center">
         <div>
           <div style="color:#A2988A;font-size:11px">سعر الحجز</div>
@@ -520,12 +523,12 @@ tr:hover td{background:rgba(201,164,92,.04)}
         </div>
       </div>
     </div>
-    <div style="margin-top:40px;padding:20px;background:rgba(216,180,90,.06);border:1px solid rgba(216,180,90,.3);border-radius:10px;text-align:center">
+    <div style="margin-top:40px;padding:20px;background:#1a1508;border:1px solid #6b5530;border-radius:10px;text-align:center">
       <div style="font-size:12px;color:#D8B45A;margin-bottom:6px">حالة الحجز</div>
       <div style="font-family:'Amiri',serif;font-size:24px;color:#EAD29A" id="pdfStatus">معلق</div>
       <div style="font-size:11px;color:#A2988A;margin-top:6px" id="pdfStatusNote">بانتظار مراجعة الإدارة</div>
     </div>
-    <div style="margin-top:40px;padding-top:20px;border-top:1px solid rgba(201,164,92,.2);display:flex;justify-content:space-between;font-size:11px;color:#6E6558">
+    <div style="margin-top:40px;padding-top:20px;border-top:1px solid #3d3325;display:flex;justify-content:space-between;font-size:11px;color:#6E6558">
       <div>
         <div>واتساب الإدارة</div>
         <div style="font-family:'Space Grotesk',monospace;direction:ltr;text-align:right" id="pdfWa">+20 115 412 6052</div>
@@ -543,6 +546,7 @@ const SUPABASE_URL='https://vvdexqrzstvsgwvetpai.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2ZGV4cXJ6c3R2c2d3dmV0cGFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4OTY1MDAsImV4cCI6MjEwMjQ3MjUwMH0.1V5Pg0fJWzv7QWHsvTRfcehQ0aeMx_PFNyFS_cVts8E';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const FALLBACK_HERO='https://picsum.photos/seed/mahmoud-noureldin-stage/1920/1200';
+const FALLBACK_ABOUT='https://picsum.photos/seed/mahmoud-portrait/860/1080';
 
 const MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 const DN=['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
@@ -568,10 +572,17 @@ const regionPrice=g=>db.regions.find(r=>r.name===g)?.price||0;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3200)}
 function tween(el,to){const from=+el.dataset.v||0;el.dataset.v=to;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/600),e=1-Math.pow(1-k,3);el.textContent=fmtP(Math.round(from+(to-from)*e));if(k<1)requestAnimationFrame(f)})(t0)}
 function scramble(el,fin){if(RM){el.textContent=fin;return}const CH='ABCDEFGHKMNPRSTUVWXYZ0123456789';let f=0;const iv=setInterval(()=>{f++;el.textContent=fin.split('').map((c,i)=>i<f?c:CH[Math.random()*CH.length|0]).join('');if(f>=fin.length)clearInterval(iv)},55)}
+// تحويل رقم العميل لصيغة واتساب دولية
+function toWaNumber(phone){
+ let p=String(phone||'').replace(/\D/g,'');
+ if(p.startsWith('00'))p=p.slice(2);
+ else if(p.startsWith('0'))p='20'+p.slice(1);
+ return p;
+}
 
 let db={settings:{artist:'محمود نور الدين',whatsapp:'',deposit:5000,socials:{},methods:{},payData:{},hero_image:''},regions:[],slots:{},bookings:[],gallery:[]};
 let isAuthed=false,persistedRegions=new Set(),lastBooking=null;
-const mapBk=r=>({id:r.id,name:r.name,phone:r.phone,email:r.email||'',occasion:r.occasion||'',guests:r.guests||'',notes:r.notes||'',date:r.date,period:r.period,gov:r.gov,city:r.city||'',venue:r.venue||'',price:r.price,deposit:r.deposit,remaining:r.remaining,pay:r.pay_status,status:r.status,created:(r.created_at||'').slice(0,10)});
+const mapBk=r=>({id:r.id,name:r.name,phone:r.phone,client_wa:r.client_wa||'',email:r.email||'',occasion:r.occasion||'',guests:r.guests||'',notes:r.notes||'',date:r.date,period:r.period,gov:r.gov,city:r.city||'',venue:r.venue||'',price:r.price,deposit:r.deposit,remaining:r.remaining,pay:r.pay_status,status:r.status,created:(r.created_at||'').slice(0,10)});
 async function hydrate(){
  const sess=(await sb.auth.getSession()).data.session;isAuthed=!!sess;
  const qs=[sb.from('settings').select('*').eq('id',1).maybeSingle(),
@@ -592,7 +603,7 @@ async function hydrate(){
  db.bookings=isAuthed?(bks?.data||[]).map(mapBk):[];
 }
 async function commitBooking(d){
- const {data,error}=await sb.rpc('book_slot',{p_date:d.date,p_period:d.period,p_name:d.name,p_phone:d.phone,p_email:d.email||'',p_occasion:d.occasion||'',p_guests:d.guests||'',p_notes:d.notes||'',p_gov:d.gov,p_city:d.city||'',p_venue:d.venue||'',p_price:d.price,p_deposit:d.deposit,p_pay:d.pay,p_status:d.status});
+ const {data,error}=await sb.rpc('book_slot',{p_date:d.date,p_period:d.period,p_name:d.name,p_phone:d.phone,p_email:d.email||'',p_occasion:d.occasion||'',p_guests:d.guests||'',p_notes:d.notes||'',p_gov:d.gov,p_city:d.city||'',p_venue:d.venue||'',p_price:d.price,p_deposit:d.deposit,p_pay:d.pay,p_status:d.status,p_client_wa:d.client_wa||''});
  if(error){const m=String(error.message||'');
   if(m.includes('SLOT_TAKEN'))return{err:'عذراً، تم حجز هذه الفترة للتو من عميل آخر.'};
   if(m.includes('SLOT_UNAVAILABLE'))return{err:'عذراً، هذه الفترة لم تعد متاحة.'};
@@ -606,6 +617,48 @@ async function uploadImg(file){
  const {error}=await sb.storage.from('images').upload(path,file,{cacheControl:'3600'});
  if(error)throw error;
  return sb.storage.from('images').getPublicUrl(path).data.publicUrl;
+}
+
+/* ===== تناوب صور قسم "من هو" من صور المعرض ===== */
+let aboutImages=[];
+let aboutIndex=0;
+let aboutTimer=null;
+function buildAboutImages(){
+ aboutImages=db.gallery.map(g=>g.url);
+ if(aboutImages.length===0)aboutImages=[FALLBACK_ABOUT];
+ aboutIndex=0;
+ const img1=$('#aboutImg1');
+ img1.src=aboutImages[0];
+ img1.classList.add('active');
+ $('#aboutImg2').classList.remove('active');
+ startAboutRotation();
+}
+function nextAboutImage(){
+ if(aboutImages.length<2)return;
+ aboutIndex=(aboutIndex+1)%aboutImages.length;
+ switchAboutImage();
+}
+function switchAboutImage(){
+ const img1=$('#aboutImg1'),img2=$('#aboutImg2');
+ const isImg1Active=img1.classList.contains('active');
+ const currentImg=isImg1Active?img1:img2;
+ const nextImg=isImg1Active?img2:img1;
+ const newSrc=aboutImages[aboutIndex];
+ const loader=new Image();
+ loader.onload=()=>{
+  nextImg.src=newSrc;
+  nextImg.classList.add('active');
+  currentImg.classList.remove('active');
+ };
+ loader.src=newSrc;
+}
+function startAboutRotation(){
+ if(aboutTimer)clearInterval(aboutTimer);
+ if(aboutImages.length>1)aboutTimer=setInterval(nextAboutImage,6000);
+}
+function stopAboutRotation(){
+ if(aboutTimer)clearInterval(aboutTimer);
+ aboutTimer=null;
 }
 
 const sel={date:null,period:null,gov:'',city:'',venue:''};
@@ -659,9 +712,9 @@ function price(){return regionPrice(sel.gov)}
 function dep(){return Math.min(db.settings.deposit,price()||Infinity)||0}
 let lastValid=false;
 function formOK(show){
- const f=[['#cName',v=>v.trim().length>=3],['#cPhone',v=>{v=v.replace(/[\s-]/g,'');return /^(\+?2)?01\d{9}$/.test(v)}],['#cMail',v=>!v||/^\S+@\S+\.\S+$/.test(v)],['#cOcc',v=>v.trim().length>=2]];
+ const f=[['#cName',v=>v.trim().length>=3],['#cPhone',v=>{v=v.replace(/[\s-]/g,'');return /^(\+?2)?01\d{9}$/.test(v)}],['#cWa',v=>!v||/^(\+?2)?01\d{9}$/.test(v.replace(/[\s-]/g,''))],['#cMail',v=>!v||/^\S+@\S+\.\S+$/.test(v)],['#cOcc',v=>v.trim().length>=2]];
  let ok=true;
- f.forEach(([id,fn])=>{const el=$(id),bad=!fn(el.value);if(show){el.classList.toggle('err',bad);el.nextElementSibling.style.display=bad?'block':'none'}if(bad)ok=false});
+ f.forEach(([id,fn])=>{const el=$(id);if(!el)return;const bad=!fn(el.value);if(show){el.classList.toggle('err',bad);if(el.nextElementSibling)el.nextElementSibling.style.display=bad?'block':'none'}if(bad)ok=false});
  lastValid=ok;return ok;}
 function updateSummary(){
  $('#sumArtist').textContent=db.settings.artist;
@@ -715,37 +768,40 @@ async function doPay(){
  if(curMth==='card'){const n=$('#ccNum').value.replace(/\s/g,'');if(n.length<16||!$('#ccExp').value||$('#ccCvv').value.length<3){toast('أكمل بيانات البطاقة');return}}
  const btn=$('#doPayBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> جارِ معالجة الدفع…';
  await new Promise(r=>setTimeout(r,1200));
- const res=await commitBooking({name:$('#cName').value.trim(),phone:$('#cPhone').value.replace(/[\s-]/g,''),email:$('#cMail').value.trim(),occasion:$('#cOcc').value.trim(),guests:$('#cGuests').value,notes:$('#cNotes').value.trim(),date:sel.date,period:sel.period,gov:sel.gov,city:sel.city,venue:sel.venue,price:price(),deposit:dep(),pay:curMth==='bank'?'pending':'deposit',status:'pending'});
+ const clientWa=$('#cWa').value.trim()||$('#cPhone').value.trim();
+ const res=await commitBooking({name:$('#cName').value.trim(),phone:$('#cPhone').value.replace(/[\s-]/g,''),client_wa:clientWa.replace(/[\s-]/g,''),email:$('#cMail').value.trim(),occasion:$('#cOcc').value.trim(),guests:$('#cGuests').value,notes:$('#cNotes').value.trim(),date:sel.date,period:sel.period,gov:sel.gov,city:sel.city,venue:sel.venue,price:price(),deposit:dep(),pay:curMth==='bank'?'pending':'deposit',status:'pending'});
  btn.disabled=false;btn.textContent='ادفع الآن وأرسل الطلب للإدارة 🔒';
  if(res.err){$('#payOv').classList.remove('show');toast(res.err);Object.assign(sel,{date:null,period:null});$('#st2').hidden=true;$('#pickEcho').hidden=true;renderCal();updateSummary();return}
  $('#payOv').classList.remove('show');showReceived(res.ok);
  Object.assign(sel,{date:null,period:null,gov:'',city:'',venue:''});
  ['st2','st3','st4','st5'].forEach(i=>$('#'+i).hidden=true);
- ['#cName','#cPhone','#cMail','#cOcc','#cGuests','#cNotes','#venueIn'].forEach(i=>$(i).value='');
+ ['#cName','#cPhone','#cWa','#cMail','#cOcc','#cGuests','#cNotes','#venueIn'].forEach(i=>$(i).value='');
  $('#pickEcho').hidden=true;fillGov();fillCity();renderCal();updateSummary();
 }
 function showReceived(b){
  lastBooking=b;
  scramble($('#rcvId'),b.id);
- const rows=[['الفنان',esc(db.settings.artist)],['التاريخ',dispDate(b.date)],['الفترة',pName(b.period)],['الموقع',esc(b.gov)+(b.city?' — '+esc(b.city):'')],['المناسبة',esc(b.occasion||'—')],['اسم العميل',esc(b.name)],['الهاتف',`<span class="lat">${esc(b.phone)}</span>`]];
+ const rows=[['الفنان',esc(db.settings.artist)],['التاريخ',dispDate(b.date)],['الفترة',pName(b.period)],['الموقع',esc(b.gov)+(b.city?' — '+esc(b.city):'')],['المناسبة',esc(b.occasion||'—')],['اسم العميل',esc(b.name)],['الهاتف',`<span class="lat">${esc(b.phone)}</span>`],['واتساب',`<span class="lat">${esc(b.client_wa||b.phone)}</span>`]];
  $('#rcvGrid').innerHTML=rows.map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join('');
  $('#rcvWa').href=waLink(`مرحباً، تقدمت بطلب حجز برقم ${b.id} بتاريخ ${dispDate(b.date)} (${pName(b.period)})`);
  $('#rcvOv').classList.add('show');
 }
 function waLink(msg){return `https://wa.me/${db.settings.whatsapp}?text=${encodeURIComponent(msg)}`}
 
+/* ===== توليد PDF (تم إصلاح المكتبة وتحسين الالتقاط) ===== */
 function buildPdfDoc(b){
  $('#pdfArtist').textContent=db.settings.artist;
  $('#pdfBid').textContent=b.id;
  const rows=[
-  ['العميل',esc(b.name)],['رقم الهاتف',`<span class="lat" style="direction:ltr;display:inline-block">${esc(b.phone)}</span>`],
+  ['العميل',esc(b.name)],['رقم الهاتف',`<span style="direction:ltr;display:inline-block">${esc(b.phone)}</span>`],
+  ['واتساب العميل',`<span style="direction:ltr;display:inline-block">${esc(b.client_wa||b.phone)}</span>`],
   ['البريد الإلكتروني',esc(b.email||'—')],['اسم المناسبة',esc(b.occasion||'—')],
   ['عدد الحضور',esc(b.guests||'—')],['تاريخ الحفل',dispDate(b.date)],
   ['الفترة الزمنية',pName(b.period)],['المحافظة',esc(b.gov)],
   ['المنطقة',esc(b.city||'—')],['مكان الحفل',esc(b.venue||'—')],
   ['ملاحظات',esc(b.notes||'—')]
  ];
- $('#pdfRows').innerHTML=rows.map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(201,164,92,.12);font-size:14px">
+ $('#pdfRows').innerHTML=rows.map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #2a2217;font-size:14px">
   <span style="color:#A2988A">${k}</span><b style="color:#F3EDE2">${v}</b></div>`).join('');
  $('#pdfPrice').textContent=fmtP(b.price);
  $('#pdfDep').textContent=fmtP(b.deposit);
@@ -755,16 +811,19 @@ function buildPdfDoc(b){
  $('#pdfWa').textContent='+'+String(db.settings.whatsapp).replace(/^2/,'2');
 }
 async function downloadPdf(b){
+ if(typeof html2pdf==='undefined'){toast('مكتبة PDF لم تُحمَّل بعد — أعد تحميل الصفحة');return}
  buildPdfDoc(b);
  const el=$('#pdfDoc');
  toast('جارِ تجهيز ملف PDF…');
  try{
+  await document.fonts.ready;
+  await new Promise(r=>setTimeout(r,150));
   const opt={margin:0,filename:b.id+'.pdf',image:{type:'jpeg',quality:.98},
-   html2canvas:{scale:2,useCORS:true,backgroundColor:'#0C0A07'},
+   html2canvas:{scale:2,useCORS:true,backgroundColor:'#0C0A07',logging:false,windowWidth:794},
    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
   await html2pdf().set(opt).from(el).save();
   toast('تم تحميل الحجز PDF ✓');
- }catch(e){toast('خطأ في التوليد: '+e.message)}
+ }catch(e){console.error('PDF Error:',e);toast('خطأ في توليد PDF — أعد المحاولة')}
 }
 
 const SOC=[['instagram','Instagram','<path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5zm4 5.5A3.5 3.5 0 1 0 15.5 12 3.5 3.5 0 0 0 12 8.5zM16.8 6.9a.9.9 0 1 0 .9.9.9.9 0 0 0-.9-.9z"/>'],['tiktok','TikTok','<path d="M14 3v9.5a3.5 3.5 0 1 1-3.5-3.5V12a1.5 1.5 0 1 0 1.5 1.5V3h2a4.5 4.5 0 0 0 4 4v2a6.5 6.5 0 0 1-4-1.5z"/>'],['facebook','Facebook','<path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3V11H9v3h2.3v7z"/>'],['youtube','YouTube','<path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12z"/>'],['snapchat','Snapchat','<path d="M12 3c2.8 0 4.5 2 4.5 4.7 0 .6 0 1.2-.1 1.7.3.1.8 0 1.3-.2.5-.2 1 .3.7.8-.4.8-1.6 1.3-1.9 1.4 0 .4.4 1 1.5 1.7.5.3.3 1-.3 1-.4 0-1 .1-1.4.4-.4.4-.7 1.3-2.3 1.3a3.7 3.7 0 0 1-2-.7 2.6 2.6 0 0 0-2 0 3.7 3.7 0 0 1-2 .7c-1.6 0-1.9-.9-2.3-1.3-.4-.3-1-.4-1.4-.4-.6 0-.8-.7-.3-1 1.1-.7 1.5-1.3 1.5-1.7-.3-.1-1.5-.6-1.9-1.4-.3-.5.2-1 .7-.8.5.2 1 .3 1.3.2 0-.5-.1-1.1-.1-1.7C7.5 5 9.2 3 12 3z"/>']];
@@ -809,8 +868,8 @@ function rBook(){
  $('#admMain').innerHTML=`<div class="adm-h"><h2>إدارة الحجوزات</h2>
  <div style="display:flex;gap:10px;flex-wrap:wrap"><input id="bkQ" placeholder="بحث…" value="${esc(admQ)}" style="width:230px">
  <select id="bkF" style="width:160px"><option value="">كل الحالات</option>${Object.entries(STATUS_AR).map(([k,v])=>`<option value="${k}" ${admF===k?'selected':''}>${v}</option>`).join('')}</select></div></div>
- <div class="panel tbl-w"><table><tr><th>Booking ID</th><th>العميل</th><th>الهاتف</th><th>التاريخ</th><th>الفترة</th><th>الموقع</th><th>السعر</th><th>العربون</th><th>المتبقي</th><th>الدفع</th><th>الحالة</th><th>إجراءات</th></tr>
- ${list.map(b=>`<tr><td class="lat">${b.id}</td><td>${esc(b.name)}</td><td class="lat">${esc(b.phone)}</td><td class="lat">${b.date}</td><td>${pName(b.period)}</td><td>${esc(b.gov)}</td><td>${b.price.toLocaleString('ar-EG')}</td><td>${b.deposit.toLocaleString('ar-EG')}</td><td>${b.remaining.toLocaleString('ar-EG')}</td><td style="font-size:12px">${PAY_AR[b.pay]}</td><td><span class="bd ${b.status}">${STATUS_AR[b.status]}</span></td>
+ <div class="panel tbl-w"><table><tr><th>Booking ID</th><th>العميل</th><th>الهاتف</th><th>واتساب</th><th>التاريخ</th><th>الفترة</th><th>الموقع</th><th>السعر</th><th>العربون</th><th>المتبقي</th><th>الحالة</th><th>إجراءات</th></tr>
+ ${list.map(b=>`<tr><td class="lat">${b.id}</td><td>${esc(b.name)}</td><td class="lat">${esc(b.phone)}</td><td class="lat">${esc(b.client_wa||b.phone)}</td><td class="lat">${b.date}</td><td>${pName(b.period)}</td><td>${esc(b.gov)}</td><td>${b.price.toLocaleString('ar-EG')}</td><td>${b.deposit.toLocaleString('ar-EG')}</td><td>${b.remaining.toLocaleString('ar-EG')}</td><td><span class="bd ${b.status}">${STATUS_AR[b.status]}</span></td>
  <td><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" data-act="bView" data-id="${b.id}">عرض</button>
  <button class="btn btn-sm" data-act="bPdf" data-id="${b.id}">📄 PDF</button>
  ${b.status==='pending'?`<button class="btn btn-sm" data-act="bConf" data-id="${b.id}" style="background:linear-gradient(135deg,var(--gold2),var(--gold));color:#241A08">✓ تأكيد</button>`:''}
@@ -850,6 +909,7 @@ function rImgs(){
  $('#admMain').innerHTML=`<div class="adm-h"><h2>إدارة الصور</h2><span style="color:var(--dim);font-size:13px">تُرفع الصور إلى Supabase Storage وتظهر فورًا على الموقع</span></div>
  <div class="panel">
   <h3>صورة الخلفية الرئيسية (Hero)</h3>
+  <p style="color:var(--mut);font-size:13px;margin-bottom:12px">الصورة الرئيسية ثابتة. أما صورة قسم «من هو» فتتناوب تلقائيًا مع صور المعرض كل 6 ثوانٍ.</p>
   <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
    <img src="${esc(db.settings.hero_image||FALLBACK_HERO)}" alt="الخلفية الحالية" style="width:min(260px,100%);aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line)">
    <div style="flex:1;min-width:250px">
@@ -858,6 +918,7 @@ function rImgs(){
     <p class="adm-note" style="border:none;padding-top:10px">يُفضَّل مقاس 1920×1200 أو أكبر.</p>
    </div></div></div>
  <div class="panel"><h3>صور المعرض</h3>
+  <p style="color:var(--mut);font-size:13px;margin-bottom:12px">هذه الصور تُعرض في قسم المعرض وتتغير تلقائيًا في صورة قسم «من هو».</p>
   <div class="img-grid">${db.gallery.map((g,i)=>`<div class="img-card">
    <img src="${esc(g.url)}" alt="">
    <input value="${esc(g.caption||'')}" data-gc="${g.id}" placeholder="وصف الصورة…">
@@ -927,7 +988,7 @@ document.addEventListener('click',async e=>{
   toast('جارِ رفع الصورة…');
   try{const url=await uploadImg(f);
    await sb.from('gallery').insert({id:'g'+Date.now(),url,caption:cap,sort:db.gallery.length+1});
-   await hydrate();renderGallery();rImgs();toast('تمت إضافة الصورة للمعرض ✓');}
+   await hydrate();renderGallery();buildAboutImages();rImgs();toast('تمت إضافة الصورة للمعرض ✓');}
   catch(err){toast('فشل الرفع: '+err.message)}}
  if(a==='gCapSave'){const inp=$(`[data-gc="${t.dataset.id}"]`);
   await sb.from('gallery').update({caption:inp.value.trim()}).eq('id',t.dataset.id);
@@ -936,7 +997,7 @@ document.addEventListener('click',async e=>{
   const g=db.gallery.find(x=>x.id===t.dataset.id);
   await sb.from('gallery').delete().eq('id',t.dataset.id);
   if(g){const path=decodeURIComponent(g.url.split('/images/')[1]||'');if(path)sb.storage.from('images').remove([path])}
-  await hydrate();renderGallery();rImgs();toast('تم الحذف')}}
+  await hydrate();renderGallery();buildAboutImages();rImgs();toast('تم الحذف')}}
  if(a==='sSave'){
   const socials={},methods={};
   $$('[data-soc]').forEach(i=>socials[i.dataset.soc]=i.value.trim());
@@ -944,10 +1005,12 @@ document.addEventListener('click',async e=>{
   const {error}=await sb.from('settings').update({artist:$('#sArtist').value.trim(),whatsapp:$('#sWa').value.replace(/\D/g,''),deposit:+$('#sDep').value||0,socials,methods,pay_data:{instapay:$('#sInsta').value,bank:$('#sBank').value}}).eq('id',1);
   if(error){toast('خطأ: '+error.message);return}
   await hydrate();applySettings();toast('تم حفظ الإعدادات ✓')}
- if(a==='bView'){const b=db.bookings.find(x=>x.id===t.dataset.id);$('#modalBody').innerHTML=`<h3 class="h-disp" style="font-size:22px;margin-bottom:14px">تفاصيل الحجز <span class="lat" style="color:var(--gold2)">${b.id}</span></h3>
-  ${[['العميل',b.name],['الهاتف',b.phone],['البريد',b.email||'—'],['المناسبة',b.occasion],['الحضور',b.guests||'—'],['التاريخ',dispDate(b.date)],['الفترة',pName(b.period)],['الموقع',`${b.gov} — ${b.city||'—'}${b.venue?' — '+b.venue:''}`],['السعر',fmtP(b.price)],['العربون',fmtP(b.deposit)],['المتبقي',fmtP(b.remaining)],['الدفع',PAY_AR[b.pay]],['الحالة',STATUS_AR[b.status]+' — '+STATUS_NOTE[b.status]],['ملاحظات',b.notes||'—']].map(([k,v])=>`<div class="sum-row"><span>${k}</span><b style="white-space:normal">${esc(v)}</b></div>`).join('')}
-  <div style="display:flex;gap:8px;margin-top:16px"><button class="btn btn-sm" data-act="bPdf" data-id="${b.id}">📄 تحميل PDF</button>
-  <a class="btn btn-ghost btn-sm" href="${waLink('مرحباً '+b.name+' بخصوص حجزك رقم '+b.id)}" target="_blank" rel="noopener">تواصل عبر واتساب</a></div>`;$('#modal').classList.add('show')}
+ if(a==='bView'){const b=db.bookings.find(x=>x.id===t.dataset.id);
+  const cwa=b.client_wa||b.phone;const cwaClean=toWaNumber(cwa);
+  $('#modalBody').innerHTML=`<h3 class="h-disp" style="font-size:22px;margin-bottom:14px">تفاصيل الحجز <span class="lat" style="color:var(--gold2)">${b.id}</span></h3>
+  ${[['العميل',b.name],['الهاتف',b.phone],['واتساب العميل',b.client_wa||b.phone],['البريد',b.email||'—'],['المناسبة',b.occasion],['الحضور',b.guests||'—'],['التاريخ',dispDate(b.date)],['الفترة',pName(b.period)],['الموقع',`${b.gov} — ${b.city||'—'}${b.venue?' — '+b.venue:''}`],['السعر',fmtP(b.price)],['العربون',fmtP(b.deposit)],['المتبقي',fmtP(b.remaining)],['الدفع',PAY_AR[b.pay]],['الحالة',STATUS_AR[b.status]+' — '+STATUS_NOTE[b.status]],['ملاحظات',b.notes||'—']].map(([k,v])=>`<div class="sum-row"><span>${k}</span><b style="white-space:normal">${esc(v)}</b></div>`).join('')}
+  <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><button class="btn btn-sm" data-act="bPdf" data-id="${b.id}">📄 تحميل PDF</button>
+  <a class="btn btn-ghost btn-sm" href="https://wa.me/${cwaClean}?text=${encodeURIComponent('مرحباً '+b.name+' بخصوص حجزك رقم '+b.id)}" target="_blank" rel="noopener">💬 واتساب العميل</a></div>`;$('#modal').classList.add('show')}
  if(a==='bPdf'){const b=db.bookings.find(x=>x.id===t.dataset.id);if(b)await downloadPdf(b)}
  if(a==='bConf'){if(confirm('تأكيد هذا الحجز؟ سيتم إشعار العميل بأن موعدك مؤكد.')){
   await sb.from('bookings').update({status:'confirmed'}).eq('id',t.dataset.id);
@@ -974,7 +1037,7 @@ document.addEventListener('input',e=>{
  if(e.target.id==='ccNum'){let v=e.target.value.replace(/\D/g,'').slice(0,16);e.target.value=v.replace(/(.{4})/g,'$1 ').trim()}
  if(e.target.id==='ccExp'){let v=e.target.value.replace(/\D/g,'').slice(0,4);e.target.value=v.length>2?v.slice(0,2)+'/'+v.slice(2):v}
  if(e.target.id==='venueIn')sel.venue=e.target.value;
- if(['cName','cPhone','cMail','cOcc'].includes(e.target.id)){formOK(false);markSteps()}
+ if(['cName','cPhone','cWa','cMail','cOcc'].includes(e.target.id)){formOK(false);markSteps()}
 });
 $('#payBtn').onclick=openPay;
 $('#doPayBtn').onclick=doPay;
@@ -992,7 +1055,7 @@ addEventListener('scroll',()=>$('#hdr').classList.toggle('sc',scrollY>40),{passi
 $('#burger').onclick=()=>document.body.classList.toggle('nav-open');
 $$('#mainNav a').forEach(a=>a.onclick=()=>document.body.classList.remove('nav-open'));
 $$('.qa button').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));
-function route(){const adm=location.hash==='#admin';$('#adminView').hidden=!adm;$('#publicView').hidden=adm;$('#hdr').style.display=adm?'none':'';$('#waFloat').style.display=adm?'none':'';if(adm)renderAdm()}
+function route(){const adm=location.hash==='#admin';$('#adminView').hidden=!adm;$('#publicView').hidden=adm;$('#hdr').style.display=adm?'none':'';$('#waFloat').style.display=adm?'none':'';if(adm){stopAboutRotation();renderAdm()}else{buildAboutImages()}}
 addEventListener('hashchange',route);
 setInterval(async()=>{const ae=document.activeElement;
  if(ae&&['INPUT','SELECT','TEXTAREA'].includes(ae.tagName))return;
@@ -1003,7 +1066,7 @@ $$('[data-rev]').forEach(el=>io.observe(el));
 const cio=new IntersectionObserver(es=>es.forEach(x=>{if(!x.isIntersecting)return;cio.unobserve(x.target);const el=x.target,to=+el.dataset.count;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1300);el.textContent=Math.round(to*(1-Math.pow(1-k,3)))+'+';if(k<1)requestAnimationFrame(f)})(t0)}),{threshold:.5});
 $$('[data-count]').forEach(el=>cio.observe(el));
 $('#tk').innerHTML=(`<span>${['حفلات زفاف','خطوبة','تخرج','أعياد ميلاد','مناسبات خاصة','حفلات شركات'].map(i=>`${i} <b>✦</b>`).join('')}</span>`).repeat(6);
-(async()=>{await hydrate();applySettings();renderTodayBar();renderGallery();fillGov();fillCity();renderCal();updateSummary();route()})();
+(async()=>{await hydrate();applySettings();renderTodayBar();renderGallery();buildAboutImages();fillGov();fillCity();renderCal();updateSummary();route()})();
 </script>
 </body>
 </html>
